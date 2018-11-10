@@ -1,0 +1,144 @@
+.flex-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0px 3px 6px gray;
+    margin-top: 1pc;
+    min-height: calc(100vh - 120px - 1pc);
+    padding: 1pc;
+}
+
+.list-container{
+    width: 100%;
+    padding: .5pc;
+    border-bottom: solid lightgrey 2px;
+    margin-bottom: 4px;
+    display: flex;
+}
+
+.list-container:nth-last-child(1){
+    margin:0;
+}
+
+.list-header{
+    font-weight: bold;
+    text-align: center;
+}
+
+.list-header .list-action{
+    display: block;
+}
+
+.list-name{
+    flex: 1 0 0;
+}
+
+.list-description{
+    flex: 3 0 0;
+}
+
+.list-action{
+    flex: 1 0 0;
+    display: flex;
+}
+
+//flex-style
+
+.flex-end{
+    justify-content: flex-end;
+}
+
+.flex-center{
+    justify-content: center;
+}
+
+.flex-column{
+    flex-direction: column;
+}
+
+
+
+// form-column 
+
+.form-column{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.form-column .form-group{
+    flex:1 0 20px;
+    min-height: 38px;
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.form-group label{
+    margin-right: .3pc;
+    text-transform: capitalize;
+}
+
+.form-group select{
+    width: 100%;
+}
+
+.form-group input, .form-group select{
+    padding: 4px;
+    border-radius: 4px;
+    border: 1px solid grey;
+    transition: 300ms ease-in-out;
+}
+
+.form-group input:focus , .form-group select:focus{
+    outline: none;
+    box-shadow: 0 0 4px 0pt #00ffa9;
+}
+
+//buttons
+
+
+.btn{
+    flex: 1 0 0;
+    border-radius: 4px;
+    border: 1px solid gray;
+    margin: 0 .5pc;
+    min-height: 28px;
+    cursor: pointer;
+    transition: 450ms ease;
+}
+.btn:hover{
+    // opacity:.8;
+}
+
+.btn.success{
+    background-color: #67ce33;
+    border-color: transparent;
+    color: white;
+}
+
+.btn.success:hover{
+    background-color: yellowgreen;
+}
+
+.btn.danger{
+    background-color: #ff4c4c;
+    border-color: transparent;
+    color: white;
+}
+
+.btn.danger:hover{
+    background-color: salmon;
+}
+
+.btn.aqua{
+    background-color: aquamarine;
+    margin:0;
+}
+
+.btn.disabled{
+    color:grey;
+    background-color: darkgray;
+}
