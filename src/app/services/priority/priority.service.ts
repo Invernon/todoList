@@ -31,7 +31,6 @@ getAll(){
 getBgColor(value:string):string{
   let color = '';
   this.priority.forEach(element => {
-    console.log(element.value , value)
     if( element.value === value ){
       color = element.color
     }

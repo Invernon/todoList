@@ -15,6 +15,7 @@
     "@angular/common": "^6.0.2",
     "@angular/compiler": "^6.0.2",
     "@angular/core": "^6.0.2",
+    "@angular/fire": "^5.1.0",
     "@angular/forms": "^6.0.2",
     "@angular/http": "^6.0.2",
     "@angular/platform-browser": "^6.0.2",
@@ -23,6 +24,7 @@
     "angularfire2": "^5.1.0",
     "core-js": "^2.5.4",
     "firebase": "^5.5.8",
+    "ngx-bootstrap": "^3.1.1",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"
   },

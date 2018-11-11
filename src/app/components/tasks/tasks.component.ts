@@ -38,6 +38,7 @@ export class TasksComponent implements OnInit {
 
   async ngOnInit() {
     await this.listService.getTasks().subscribe( (taskSnapshots) => {
+      console.log(taskSnapshots)
       this.tasks = taskSnapshots.map(snap => {
         let obj = {
           id: snap.payload.doc.id,
@@ -83,8 +84,6 @@ export class TasksComponent implements OnInit {
   }
 
   getBgColor(value){
-    console.log(value)
-    console.log(this.optionsService.getBgColor(value))
     return this.optionsService.getBgColor(value)
   }
 

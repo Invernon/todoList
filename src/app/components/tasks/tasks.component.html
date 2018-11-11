@@ -32,7 +32,7 @@
           <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
         </select>
       </div>
-      <button type="submit" class="btn aqua" [ngClass]="{'disabled' : taskForm.invalid }" [disabled]="taskForm.invalid">
+      <button type="submit" class="btn aqua" [ngClass]="{ 'disabled' : taskForm.invalid }" [disabled]="taskForm.invalid">
         Agregar </button>
     </form>
   </div>
