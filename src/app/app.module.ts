@@ -15,6 +15,8 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { LoginComponent } from './views/login/login.component';
 import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
+import { CustomModalComponent } from './components/custom-modal/custom-modal.component';
+import { WindowScrolling } from './services/utilities/window-scrolling';
 
 
 @NgModule({
@@ -22,7 +24,8 @@ import { UserService } from './services/user/user.service';
     AppComponent,
     TasksComponent,
     TaskComponent,
-    LoginComponent
+    LoginComponent,
+    CustomModalComponent
   ],
   imports: [
     AppRoutingModule,
@@ -36,7 +39,8 @@ import { UserService } from './services/user/user.service';
     ListService,
     AngularFirestore,
     AuthService,
-    AngularFireAuth
+    AngularFireAuth,
+    WindowScrolling
 
   ],
   bootstrap: [AppComponent]

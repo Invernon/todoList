@@ -30,7 +30,6 @@ export class AuthGuard implements CanActivate {
     return this.afAuth.authState.pipe(map(user => !!user), tap(isLogged => {
       if (isLogged) {
         // console.log('Esta Logeado', isLogged);
-        console.log('user is logged in');
       } else {
         // console.log('No Logeado', isLogged);
         alert("You don't have permission to view this page");

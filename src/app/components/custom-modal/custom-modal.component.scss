@@ -1,0 +1,83 @@
+
+.overlay{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: #1e1e1e;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.modal-custom{
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px;
+    transition: 450ms ease-in-out;
+    // box-shadow: 0 0 10px 2px #717171
+}
+
+.overlay.hide , .modal-custom.hide{
+    opacity: 0;
+    visibility: hidden;
+    transition: 300ms ease-in-out;
+}
+
+.overlay.show{
+    opacity: .8;
+    visibility: visible;
+}
+
+.modal-custom.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.sm-modal .modal-custom-box{
+    width: 100%;
+    height: 100%;
+}
+
+.modal-custom-box{
+    background: white;
+    border-radius: 4px;
+    // width: 500px;
+    // height: 500px;
+    flex-direction: column;
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+}
+
+.modal-header{
+    background-color: whitesmoke;
+    width: 100%;
+}
+
+.modal-body{
+    width: 100%;
+    padding: 1rem;
+}
+
+.btn-box{
+    width: 60%;
+    text-align: center;
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-custom{
+    margin: 10px;
+    width: 100%;
+}

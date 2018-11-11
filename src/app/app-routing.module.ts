@@ -15,9 +15,8 @@ const routes: Routes = [
       { path: '', component: TaskComponent},
     ]
   },
-  { path: 'login', component: LoginComponent },
-  
-  { path: '**', redirectTo: '/login' },
+  { path: 'login', canActivate: [AuthGuard] , component: LoginComponent },
+  { path: '**', redirectTo: '/login', },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 
 ];

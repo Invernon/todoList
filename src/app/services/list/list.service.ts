@@ -24,8 +24,6 @@ export class ListService {
     })
 
     console.log(this.user)
-    // this.user = this.userService.getActualUser();
-
    }
 
     private taskPath: string = '/tasks'
