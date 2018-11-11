@@ -23,7 +23,7 @@ export class UserService {
   }
 
     //Crear un usuario
-    public createUser(data: {name: string, email: string, type: string, tasks:[] } ) {
+    public createUser(data: {name: string, email: string, type: string, tasks:any } ) {
       return this.afs.collection(this.path).add(data);
   }
 
