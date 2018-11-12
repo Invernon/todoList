@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/todoList",
+    "public": "dist/stack-it-2",
     "ignore": [
       "firebase.json",
       "**/.*",

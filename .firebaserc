@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "sistemas-de-informacion-unimet"
+    "default": "sistemas-de-informacion-unimet",
+    "stackit": "stack-it-2"
   }
 }
