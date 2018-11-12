@@ -26,8 +26,18 @@ export class UserService {
   }
 
     //Crear un usuario
-    public createUser(data: {name: string, email: string, type: string, tasks:any } ) {
-      return this.afs.collection(this.userPath).add(data);
+    public createUser(data: {email: string, password: string, name:string, admin: boolean} , user:any) {
+      let id = user.user.uid;
+      let newUser = {
+        email: user.user.email,
+        name: (user.user.displayName) ? user.user.displayName : data.name,
+        admin: data.admin,   
+      };
+      
+      return this.afs.collection(this.userPath).doc(id).set(
+        {...newUser},
+        {merge:true }
+      );
   }
 
 

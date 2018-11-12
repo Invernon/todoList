@@ -13,6 +13,7 @@ export class TaskComponent implements OnInit {
   isAdmin: any;
   user: any;
   showModal: boolean;
+  displayName: any;
 
   constructor(
     private fb: FormBuilder, 
@@ -23,6 +24,7 @@ export class TaskComponent implements OnInit {
   async ngOnInit() {
      this.user = await this.userService.isAdmin().subscribe( data => {
       this.isAdmin = data.data().admin;
+      this.displayName = data.data().name;
     })
 
     
@@ -44,10 +46,6 @@ export class TaskComponent implements OnInit {
   closeModal(event?):void{
     this.windowScrolling.enable();
     this.showModal = false;
-
-    if(event){
-      console.log(event)
-    }
   }
 
 }

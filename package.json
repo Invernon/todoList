@@ -24,6 +24,7 @@
     "angularfire2": "^5.1.0",
     "core-js": "^2.5.4",
     "firebase": "^5.5.8",
+    "firebase-admin": "^6.1.0",
     "ngx-bootstrap": "^3.1.1",
     "rxjs": "^6.0.0",
     "zone.js": "^0.8.26"

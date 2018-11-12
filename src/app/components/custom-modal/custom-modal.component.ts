@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { WindowScrolling } from 'src/app/services/utilities/window-scrolling';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from 'src/app/services/user/user.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-custom-modal',
@@ -18,7 +20,9 @@ export class CustomModalComponent implements OnInit {
 
   constructor( 
     private windowScrolling: WindowScrolling,
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
+    private userService: UserService,
+    private authService: AuthService
      ) {
 
       this.createUserForm();
@@ -31,6 +35,7 @@ export class CustomModalComponent implements OnInit {
 
   createUserForm() {
     this.newUserForm = this.fb.group({
+      name: ['', [Validators.required] ],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required] ],
       admin: [false, [Validators.required] ]
@@ -42,7 +47,16 @@ export class CustomModalComponent implements OnInit {
   }
 
   submitForm(){
-    this.closeModal.emit(this.newUserForm.value);
+    let user = this.newUserForm.value;
+
+    this.authService.registerByEmail(user.email, user.password)
+    .then( data => {
+      this.userService.createUser( user , data );
+    })
+    .catch( err => {
+      alert(err.message)
+    })
+    this.closeModal.emit();
   }
 
 }

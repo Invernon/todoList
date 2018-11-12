@@ -10,7 +10,10 @@
       <div class='row'>
         <div class='col-12'>
           <form [formGroup]="newUserForm" (ngSubmit)="submitForm()">
-            {{ newUserForm.value | json}}
+            <div class="form-group">
+              <label> Full Name </label>
+              <input type="text" formControlName="name" class="form-control" placeholder="Juan Rodriguez">
+            </div>
             <div class="form-group">
               <label> Email </label>
               <input type="email" formControlName="email" class="form-control" placeholder="example@gmail.com">
