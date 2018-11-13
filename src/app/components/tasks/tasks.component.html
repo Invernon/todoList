@@ -1,4 +1,4 @@
-<div class="flex-container">
+<div class="inner-container">
   <div class="list-container flex-end">
     <div class="list-name">
       <span> Total: {{tasks.length}} </span>
@@ -44,8 +44,12 @@
         <span> Nombre </span>
       </div>
 
+      <div class="list-type">
+        <span> Tipo </span> 
+      </div>
+
       <div class="list-description">
-        <span> Tipo </span> / <span> Detalle </span>
+        <span> Detalle </span>
       </div>
 
       <div class="list-action">
@@ -54,14 +58,22 @@
 
     </div>
     <!-- Iteracion para mostar las tareas guardadas -->
-    <div class="list-container" *ngFor="let task of tasks; trackBy: trackByFn" [ngStyle]="{ 'background-color' : getBgColor(task.priority) }">
+    <div class="list-item" *ngFor="let task of tasks; trackBy: trackByFn" 
+        [ngStyle]="{
+          'border-left-color' : getBorderColor(task.priority),
+          'background-color' : getBgColor(task.priority) }">
       <div class="list-name">
         <span> {{task?.name}} </span>
       </div>
 
-      <div class="list-description">
-        <span> {{task?.type }} </span> , <span> {{task?.detail}} </span>
+      <div class="list-type">
+        <span> {{task?.type }} </span>
       </div>
+      
+      <div class="list-description">
+        <span> {{task?.detail}} </span>
+      </div>
+      
 
       <div class="list-action">
         <button class="btn success" (click)="editTask(task)"> Editar </button>

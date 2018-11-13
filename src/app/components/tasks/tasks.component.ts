@@ -80,11 +80,14 @@ export class TasksComponent implements OnInit {
     else{
       this.listService.createTask(this.taskForm.value)
     }
-
   }
 
   getBgColor(value){
     return this.optionsService.getBgColor(value)
+  }
+  
+  getBorderColor(value){
+    return this.optionsService.getBorderColor(value)
   }
 
 }

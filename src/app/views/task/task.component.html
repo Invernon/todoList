@@ -1,14 +1,1 @@
-<div class="main-container">
-  <span *ngIf="isAdmin" (click)="newUser()" class="justify-left">
-      <i class="fas fa-plus-circle"></i>
-  </span>
-  <span class="title"> {{ isAdmin ? 'Admin: ' : 'TODO List -'}} {{ displayName }}  </span>
-  <span (click)="logout()" class="justify-right"> Salir </span>
-</div>
-
 <app-tasks> </app-tasks>
-
-<app-custom-modal 
-[active]="showModal" 
-(closeModal)="closeModal($event)"> 
-</app-custom-modal>

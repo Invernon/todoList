@@ -1,0 +1,61 @@
+@import '../../../assets/style/style.scss';
+
+.header-container{
+    position: relative;
+    width: 100%;
+    background-color:$primary;
+    color:white;
+    height: 60px;
+    padding: 1pc;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0px 3px 6px #adadad;
+}
+
+.header-left{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1 0 0;
+}
+
+.header-left .justify-left{
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: 450ms ease;
+    color:$secondary;
+}
+
+.header-left .justify-left:hover{
+    transform: scale(1.5);
+    color:$secondaryB;
+}
+
+
+.header-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+}
+
+.title{
+    font-size: 1.5rem;
+    line-height: 70px;
+}
+
+.header-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex: 1 0 0;
+}
+
+.header-right .justify-right{
+    cursor: pointer;
+    transition: 450ms ease;
+}
+
+.header-right .justify-right:hover{
+    transform: scale(1.5)
+}

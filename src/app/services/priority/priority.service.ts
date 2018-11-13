@@ -10,17 +10,20 @@ export class PriorityService {
   priority = [{
     name:  'Alta',
     value: 'high',
-    color: '#ffa2a2'
+    borderColor: '#FA6E59',
+    bgColor: '#FA6E5980'
   },
   {
     name:  'Media',
     value: 'medium',
-    color: '#ffff9b'
+    borderColor: '#FFD85C',
+    bgColor: '#FFD85C80'
   },
   {
     name:  'Baja',
     value: 'low',
-    color: '#8bfcd1'
+    borderColor: '#4897D8',
+    bgColor: '#4897D880'
   },
 ]
 
@@ -32,7 +35,17 @@ getBgColor(value:string):string{
   let color = '';
   this.priority.forEach(element => {
     if( element.value === value ){
-      color = element.color
+      color = element.bgColor
+    }
+  });
+  return color;
+}
+
+getBorderColor(value:string):string{
+  let color = '';
+  this.priority.forEach(element => {
+    if( element.value === value ){
+      color = element.borderColor;
     }
   });
   return color;
