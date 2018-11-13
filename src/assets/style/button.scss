@@ -1,0 +1,29 @@
+// Button CSS style
+
+@import '../style/color.scss';
+
+
+%button{
+    flex: 1 0 0;
+    border-radius: 4px;
+    border: 1px solid gray;
+    margin: 0 .5pc;
+    min-height: 28px;
+    cursor: pointer;
+    transition: 450ms ease;
+    box-shadow: 1px 1px 5px #565656;
+}
+
+.button{
+    @extend %button;
+}
+
+.button-borderless{
+    @extend %button;
+    border:none;
+    border-color:transparent;
+}
+
+.button.success{
+    
+}
