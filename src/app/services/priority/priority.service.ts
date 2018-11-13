@@ -11,19 +11,19 @@ export class PriorityService {
     name:  'Alta',
     value: 'high',
     borderColor: '#FA6E59',
-    bgColor: '#FA6E5980'
+    bgColor: '#fffceb'
   },
   {
     name:  'Media',
     value: 'medium',
-    borderColor: '#FFD85C',
-    bgColor: '#FFD85C80'
+    borderColor: '#FFDB5C',
+    bgColor: '#fffceb'
   },
   {
     name:  'Baja',
     value: 'low',
     borderColor: '#4897D8',
-    bgColor: '#4897D880'
+    bgColor: '#fffceb'
   },
 ]
 

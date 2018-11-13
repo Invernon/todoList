@@ -2,6 +2,11 @@
 
 @import '../style/color.scss';
 
+$success: #FDD475;
+$successDark: #00405a;
+$danger: #FFEB94;
+$dangerDark: #460c00;
+
 
 %button{
     flex: 1 0 0;
@@ -25,5 +30,21 @@
 }
 
 .button.success{
-    
+    background-color: $success;
+    color:white;
+}
+
+.button.success:hover{
+    background-color:$successDark;
+    color:white;
+}
+
+.button.danger{
+    background-color: $danger;
+    color:white;
+}
+
+.button.danger:hover{
+    background-color: $dangerDark;
+    color:white;
 }
