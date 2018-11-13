@@ -1,21 +1,34 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TaskComponent } from './views/task/task.component';
 import { LoginComponent } from './views/login/login.component';
 import { CanActivate } from "@angular/router";
 import { AuthGuard } from './guard/auth.guard';
+import { PageNavigationComponent } from './navigation/page-navigation/page-navigation.component';
+import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
 
 
 const routes: Routes = [
-  {
-    path: 'task',
-    canActivate: [AuthGuard] ,
+  {path:'', 
     children: [
-      { path: '', component: TaskComponent},
-    ]
+    {
+      path: 'task',
+      canActivate: [AuthGuard] ,
+      children: [
+        { path: '', component: TaskComponent},
+      ]
+    },
+    ],component : PageNavigationComponent,
   },
-  { path: 'login' , component: LoginComponent },
+  
+  { path: 'login' ,
+    children:[
+      { path:'', component:LoginComponent }
+    ],
+    component: LoginNavigationComponent
+  },
+  
   { path: '**', redirectTo: '/login', },
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 

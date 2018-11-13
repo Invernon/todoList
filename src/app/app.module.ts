@@ -17,6 +17,9 @@ import { AuthService } from './services/auth/auth.service';
 import { UserService } from './services/user/user.service';
 import { CustomModalComponent } from './components/custom-modal/custom-modal.component';
 import { WindowScrolling } from './services/utilities/window-scrolling';
+import { HeaderComponent } from './components/header/header.component';
+import { PageNavigationComponent } from './navigation/page-navigation/page-navigation.component';
+import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
 
 
 @NgModule({
@@ -25,7 +28,10 @@ import { WindowScrolling } from './services/utilities/window-scrolling';
     TasksComponent,
     TaskComponent,
     LoginComponent,
-    CustomModalComponent
+    CustomModalComponent,
+    HeaderComponent,
+    PageNavigationComponent,
+    LoginNavigationComponent
   ],
   imports: [
     AppRoutingModule,
