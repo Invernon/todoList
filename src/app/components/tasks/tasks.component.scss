@@ -1,17 +1,10 @@
 @import '../../../assets/style/style.scss';
 
-.inner-container{
-
-}
-
 .list-container{
     width: 100%;
     padding: .5pc;
-    // border-bottom: solid lightgrey 2px;
     margin-bottom: 4px;
     display: flex;
-    //Indicador de la prioridad
-    // border-left: 4px solid;
 }
 
 .list-container:nth-last-child(1){
@@ -21,11 +14,11 @@
 .list-item{
     width: 100%;
     padding: .5pc;
-    // border-bottom: solid lightgrey 2px;
     margin-bottom: 4px;
     display: flex;
-    //Indicador de la prioridad
     border-left: 4px solid;
+    // border-bottom: 4px solid;
+    background-color: $secondary-light;
 }
 
 .list-item:nth-last-child(1){
@@ -39,6 +32,21 @@
 
 .list-header .list-action{
     display: block;
+}
+
+.list-quantity{
+    flex: 1 0 0;
+    align-items: center;
+    display: flex;
+}
+
+.list-top-separator{
+    flex: 3.5;
+}
+
+.list-button{
+    flex: 1 0 0;
+    display: flex;
 }
 
 .list-name{
@@ -64,6 +72,21 @@
     display: flex;
 }
 
+@media (max-width:767px){
+    .list-quantity{
+        flex: .5
+    }
+
+    .list-top-separator{
+        flex: .5
+    }
+
+    .list-header{
+        visibility: hidden;
+    }
+    
+}
+
 //flex-style
 
 .flex-end{
@@ -82,85 +105,22 @@
 
 // form-column 
 
-.form-column{
+.list-add-new{
+    border-bottom:2px solid grey;
+    border-top:2px solid grey;
+}
+
+.custom-input{
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
 }
 
-.form-column .form-group{
-    flex:1 0 20px;
-    min-height: 38px;
+.custom-input.text-area{
     display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    align-items: center;
+    flex-direction: column;
+    max-width: 100%;
 }
 
-.form-group label{
-    margin-right: .3pc;
-    text-transform: capitalize;
-}
-
-.form-group select{
-    width: 100%;
-}
-
-.form-group input, .form-group select{
-    padding: 4px;
-    border-radius: 4px;
-    border: 1px solid grey;
-    transition: 300ms ease-in-out;
-}
-
-.form-group input:focus , .form-group select:focus{
-    outline: none;
-    box-shadow: 0 0 4px 0pt #00ffa9;
-}
-
-//buttons
-
-
-.btn{
-    flex: 1 0 0;
-    border-radius: 4px;
-    border: 1px solid gray;
-    margin: 0 .5pc;
-    min-height: 28px;
-    cursor: pointer;
-    transition: 450ms ease;
-    box-shadow: 1px 1px 5px #565656;
-}
-.btn:hover{
-    // opacity:.8;
-}
-
-.btn.success{
-    background-color: #67ce33;
-    border-color: transparent;
-    color: white;
-}
-
-.btn.success:hover{
-    background-color: yellowgreen;
-}
-
-.btn.danger{
-    background-color: #ff4c4c;
-    border-color: transparent;
-    color: white;
-}
-
-.btn.danger:hover{
-    background-color: salmon;
-}
-
-.btn.aqua{
-    background-color: aquamarine;
-    margin:0;
-}
-
-.btn.disabled{
-    color:grey;
-    background-color: darkgray;
+.custom-input label{
+    font-weight: bold;
 }

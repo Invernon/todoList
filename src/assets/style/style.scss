@@ -1,8 +1,9 @@
 @import '../style/color';
 @import '../style/button.scss';
+@import '../style/form.scss';
 
 .flex-container{
-    background-color: $primaryC;
+    background-color: $secondary-dark;
     width: 100%;
     min-height: calc(100vh - 60px);
     padding: 1pc;

@@ -20,6 +20,7 @@ import { WindowScrolling } from './services/utilities/window-scrolling';
 import { HeaderComponent } from './components/header/header.component';
 import { PageNavigationComponent } from './navigation/page-navigation/page-navigation.component';
 import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
+import { WindowSize } from './services/utilities/window-size';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { LoginNavigationComponent } from './navigation/login-navigation/login-na
     AngularFirestore,
     AuthService,
     AngularFireAuth,
-    WindowScrolling
+    WindowScrolling,
+    WindowSize
 
   ],
   bootstrap: [AppComponent]

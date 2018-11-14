@@ -1,50 +1,105 @@
 // Button CSS style
 
 @import '../style/color.scss';
+// #1995AD
+// $btn-primary: #596b5e;
+// $btn-primary-light: #86998b;
+// $btn-primary-dark: #304034; 
+$btn-primary: $primary;
+$btn-primary-light: $primary-light;
+$btn-primary-dark: $primary-dark;
 
-$success: #FDD475;
-$successDark: #00405a;
-$danger: #FFEB94;
-$dangerDark: #460c00;
+$btn-secondary: $secondary;
+$btn-secondary-light: $secondary-light;
+$btn-secondary-dark: $secondary-dark;
+
+
+
+$success: #867666;
+$success-dark: #594a3c;
+$danger: #B6452C;
+$danger-dark: #801202;
 
 
 %button{
-    flex: 1 0 0;
+    background-color: $btn-primary;
     border-radius: 4px;
-    border: 1px solid gray;
-    margin: 0 .5pc;
-    min-height: 28px;
+    border: 1px solid $btn-primary-dark;
+    box-shadow: 0px 0px 1px #565656;
+    color:white;
     cursor: pointer;
+    flex: 1 0 0;
+    margin: 0 .5pc;
+    min-height: 38px;
     transition: 450ms ease;
-    box-shadow: 1px 1px 5px #565656;
 }
 
 .button{
     @extend %button;
 }
 
-.button-borderless{
+.button:disabled{
+    background-color: $btn-primary-light;
+    color: $btn-primary;
+    cursor: default;
+}
+
+.button:disabled:hover{
+    background-color: $btn-primary-light;
+    color: $btn-primary;
+}
+
+.button:hover{
+    background-color: $btn-primary-dark;
+}
+
+.button:focus, .button:active{
+    outline: none;
+}
+
+.button.button-outline{
     @extend %button;
-    border:none;
-    border-color:transparent;
+    background-color: white;
+    border-color:$btn-primary;
+    color: $btn-primary
+}
+
+.button.button-outline:hover{
+    @extend %button;
+    background-color: $btn-primary-light;
+    border-color:$btn-primary-dark;
+    color: $btn-primary-dark
+}
+
+.button.cancel{
+    background-color: $btn-secondary;
+    border-color: $btn-secondary-dark;
+    color: black;
+}
+
+.button.cancel:hover{
+    background-color: $btn-secondary-dark;
+    color: black;
 }
 
 .button.success{
+    border-color: $success-dark;
     background-color: $success;
     color:white;
 }
 
 .button.success:hover{
-    background-color:$successDark;
+    background-color:$success-dark;
     color:white;
 }
 
 .button.danger{
+    border-color: $danger-dark;
     background-color: $danger;
     color:white;
 }
 
 .button.danger:hover{
-    background-color: $dangerDark;
+    background-color: $danger-dark;
     color:white;
 }

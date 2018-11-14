@@ -3,6 +3,8 @@ import { ListService } from '../../services/list/list.service';
 import { PriorityService } from '../../services/priority/priority.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { FormGroup, FormControl } from '@angular/forms';
+import { WindowSize } from 'src/app/services/utilities/window-size';
+import { Observable } from 'rxjs';
 
 
 
@@ -25,11 +27,16 @@ export class TasksComponent implements OnInit {
   addForm = false;
   editTaskForm: boolean = false;
   taskID: any;
+  isMobile$: Observable<boolean>;
 
-  constructor( private listService:ListService, private optionsService:PriorityService, private fb: FormBuilder) {
+  constructor( 
+    private listService:ListService,
+    private optionsService:PriorityService,
+    private fb: FormBuilder,
+    private windowSize:WindowSize) {
 
     this.options = this.optionsService.getAll();
-
+    this.isMobile$ = this.windowSize.isMobileObservable;
    }
 
   trackByFn(index, item) {

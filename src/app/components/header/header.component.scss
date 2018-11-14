@@ -28,7 +28,7 @@
 
 .header-left .justify-left:hover{
     transform: scale(1.5);
-    color:$secondaryB;
+    color:$secondary-dark;
 }
 
 
@@ -36,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    flex: 1 0 0;
+    flex: 4 0 0;
 }
 
 .title{
@@ -58,4 +58,11 @@
 
 .header-right .justify-right:hover{
     transform: scale(1.5)
+}
+
+
+@media (max-width:767px){
+    .title{
+        font-size: 1rem;
+    }
 }

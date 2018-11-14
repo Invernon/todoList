@@ -1,67 +1,85 @@
 <div class="inner-container">
   <div class="list-container flex-end">
-    <div class="list-name">
+    <div class="list-quantity">
       <span> Total: {{tasks.length}} </span>
     </div>
-    <div class="list-description"> </div>
-    <div class="list-action">
-      <button class="btn aqua" (click)="addNewToggle()">
-        {{ !addForm ? 'Agregar nueva tarea' : 'Cerrar' }}
+    <div class="list-top-separator">
+    </div>
+    <div class="list-button ">
+      <button class="button" (click)="addNewToggle()">
+        {{ !addForm ? 'Add new task' : 'Cerrar' }}
       </button>
     </div>
   </div>
 
   <!-- Formulario para las nuevas tareas -->
-  <div class="list-container list-form" *ngIf="addForm">
-    <form class="form-column" [formGroup]="taskForm" (ngSubmit)="onSubmit(taskID)">
-      <div class="form-group">
-        <label>Nombre</label>
-        <input type="text" formControlName="name">
+  <div class="list-container list-add-new" *ngIf="addForm">
+    <form style="width:100%" [formGroup]="taskForm" (ngSubmit)="onSubmit(taskID)">
+      <div class="row">
+        <div class="col-12 col-md-3">
+          <div class="form-group custom-input">
+            <label>Nombre</label>
+            <input type="text" formControlName="name">
+          </div>
+        </div>
+        <div class="col-12 col-md-3">
+          <div class="form-group custom-input">
+            <label>Tipo</label>
+            <input type="text" formControlName="type">
+          </div>
+        </div>
+        <div class="col-12 col-md-3">
+          <div class="form-group custom-input">
+            <label>Prioridad</label>
+            <select formControlName="priority">
+              <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-12 col-md-9">
+          <div class="form-group custom-input text-area">
+            <label>Detalle</label>
+            <textarea formControlName="detail"></textarea>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-12 col-md-3">
+              <button type="submit" class="btn-block button ml-0" [ngClass]="{ 'disabled' : taskForm.invalid }"
+                [disabled]="taskForm.invalid">
+                Agregar </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Tipo</label>
-        <input type="text" formControlName="type">
-      </div>
-      <div class="form-group">
-        <label>Detalle</label>
-        <input formControlName="detail">
-      </div>
-      <div class="form-group">
-        <label>Prioridad</label>
-        <select formControlName="priority">
-          <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
-        </select>
-      </div>
-      <button type="submit" class="btn aqua" [ngClass]="{ 'disabled' : taskForm.invalid }" [disabled]="taskForm.invalid">
-        Agregar </button>
     </form>
   </div>
 
 
 
-    <div class="list-container list-header">
-      <div class="list-name">
-        <span> Nombre </span>
-      </div>
-
-      <div class="list-type">
-        <span> Tipo </span> 
-      </div>
-
-      <div class="list-description">
-        <span> Detalle </span>
-      </div>
-
-      <div class="list-action">
-        <span> Acciones </span>
-      </div>
-
+  <div class="list-container list-header">
+    <div class="list-name">
+      <span> Nombre </span>
     </div>
-    <!-- Iteracion para mostar las tareas guardadas -->
-    <div class="list-item" *ngFor="let task of tasks; trackBy: trackByFn" 
-        [ngStyle]="{
-          'border-left-color' : getBorderColor(task.priority),
-          'background-color' : getBgColor(task.priority) }">
+
+    <div class="list-type">
+      <span> Tipo </span>
+    </div>
+
+    <div class="list-description">
+      <span> Detalle </span>
+    </div>
+
+    <div class="list-action">
+      <span> Acciones </span>
+    </div>
+  </div>
+  <!-- Iteracion para mostar las tareas guardadas -->
+  <div class="list-item" *ngFor="let task of tasks; trackBy: trackByFn" [ngStyle]="{
+          'border-left-color' : getBorderColor(task.priority)
+        }">
+
+    <ng-container *ngIf="!(isMobile$ | async); else responsiveList">
       <div class="list-name">
         <span> {{task?.name}} </span>
       </div>
@@ -69,20 +87,27 @@
       <div class="list-type">
         <span> {{task?.type }} </span>
       </div>
-      
+
       <div class="list-description">
         <span> {{task?.detail}} </span>
       </div>
-      
 
       <div class="list-action">
-        <button class="button success" (click)="editTask(task)"> Editar </button>
+        <button class="button" (click)="editTask(task)"> Editar </button>
         <button class="button danger" (click)="deleteTask(task.id)"> Eliminar </button>
       </div>
+    </ng-container>
 
-    </div>
+    <ng-template #responsiveList>
+      <div class="list-name">
+        <span> {{task?.name}} </span>
+      </div>
+    </ng-template>
 
-    <div class="list-container flex-center" *ngIf="tasks.length == 0 ">
-      <h2> Felicidades, no tiene tareas!</h2>
-    </div>
+  </div>
+
+  <div class="list-container flex-center" *ngIf="tasks.length == 0 ">
+    <h2> Felicidades, no tiene tareas!</h2>
+  </div>
+
 </div>
