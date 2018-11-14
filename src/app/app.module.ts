@@ -21,7 +21,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { PageNavigationComponent } from './navigation/page-navigation/page-navigation.component';
 import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
 import { WindowSize } from './services/utilities/window-size';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,8 @@ import { WindowSize } from './services/utilities/window-size';
     AngularFireModule.initializeApp(environment.firebase),
     ReactiveFormsModule,
     FormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     UserService,

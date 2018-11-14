@@ -34,7 +34,7 @@
 .form-group textarea{
     resize: none;
     height:38px;
-    max-height:76px;
+    max-height:100px;
 }
 
 .form-group input, .form-group select, .form-group textarea{
@@ -47,4 +47,10 @@
 .form-group input:focus , .form-group select:focus, .form-group textarea:focus{
     outline: none;
     box-shadow: 0 0 4px 0pt $primary-dark;
+}
+
+@media (max-width:767px){ 
+    .form-group textarea{
+        height:100px;
+    }
 }

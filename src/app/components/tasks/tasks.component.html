@@ -6,8 +6,8 @@
     <div class="list-top-separator">
     </div>
     <div class="list-button ">
-      <button class="button" (click)="addNewToggle()">
-        {{ !addForm ? 'Add new task' : 'Cerrar' }}
+      <button class="button mx-1" (click)="addNewToggle()">
+        {{ !addForm ? 'Add new task' : 'Close' }}
       </button>
     </div>
   </div>
@@ -18,19 +18,19 @@
       <div class="row">
         <div class="col-12 col-md-3">
           <div class="form-group custom-input">
-            <label>Nombre</label>
+            <label>Name</label>
             <input type="text" formControlName="name">
           </div>
         </div>
         <div class="col-12 col-md-3">
           <div class="form-group custom-input">
-            <label>Tipo</label>
+            <label>Type</label>
             <input type="text" formControlName="type">
           </div>
         </div>
         <div class="col-12 col-md-3">
           <div class="form-group custom-input">
-            <label>Prioridad</label>
+            <label>Priority</label>
             <select formControlName="priority">
               <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
             </select>
@@ -38,7 +38,7 @@
         </div>
         <div class="col-12 col-md-9">
           <div class="form-group custom-input text-area">
-            <label>Detalle</label>
+            <label>Details</label>
             <textarea formControlName="detail"></textarea>
           </div>
         </div>
@@ -47,7 +47,7 @@
             <div class="col-12 col-md-3">
               <button type="submit" class="btn-block button ml-0" [ngClass]="{ 'disabled' : taskForm.invalid }"
                 [disabled]="taskForm.invalid">
-                Agregar </button>
+                {{ editTaskForm ? 'Update' : 'Add' }} </button>
             </div>
           </div>
         </div>
@@ -59,25 +59,25 @@
 
   <div class="list-container list-header">
     <div class="list-name">
-      <span> Nombre </span>
+      <span> Name </span>
     </div>
 
     <div class="list-type">
-      <span> Tipo </span>
+      <span> Type </span>
     </div>
 
     <div class="list-description">
-      <span> Detalle </span>
+      <span> Detail </span>
     </div>
 
     <div class="list-action">
-      <span> Acciones </span>
+      <span> Actions </span>
     </div>
   </div>
   <!-- Iteracion para mostar las tareas guardadas -->
   <div class="list-item" *ngFor="let task of tasks; trackBy: trackByFn" [ngStyle]="{
-          'border-left-color' : getBorderColor(task.priority)
-        }">
+          'border-left-color' : getBorderColor(task.priority)}"
+    [@marginAnimation]='detailState(task.showDetail , (isMobile$ | async))'>
 
     <ng-container *ngIf="!(isMobile$ | async); else responsiveList">
       <div class="list-name">
@@ -93,21 +93,32 @@
       </div>
 
       <div class="list-action">
-        <button class="button" (click)="editTask(task)"> Editar </button>
-        <button class="button danger" (click)="deleteTask(task.id)"> Eliminar </button>
+        <button class="button mx-1" (click)="editTask(task)"> Editar </button>
+        <button class="button mx-1 danger" (click)="deleteTask(task.id)"> Eliminar </button>
       </div>
     </ng-container>
 
     <ng-template #responsiveList>
       <div class="list-name">
-        <span> {{task?.name}} </span>
+        <span (click)="openDetail(task)"> {{task?.name}} </span>
+      </div>
+      <div [ngClass]='detailState(task.showDetail, (isMobile$ | async) )' class="list-detail">
+        <div class="list-type">
+          <span> <b> Type: </b> {{task?.type }} </span>
+        </div>
+        <div class="list-description">
+          <span> <b> Description: </b> {{task?.detail}} </span>
+        </div>
+        <div class="list-action">
+          <a (click)="editTask(task)"> <i class="fas fa-pencil-alt"></i> </a>
+          <a (click)="deleteTask(task.id)"> <i class="fas fa-trash-alt"></i> </a>
+        </div>
       </div>
     </ng-template>
-
   </div>
 
   <div class="list-container flex-center" *ngIf="tasks.length == 0 ">
-    <h2> Felicidades, no tiene tareas!</h2>
+    <h2> Gratz, you are free! for now...</h2>
   </div>
 
 </div>
