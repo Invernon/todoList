@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     this.createLoginForm();
     this.authService.user.subscribe( data => {
       if(data){
-        this.router.navigate(['/task'])
+        this.router.navigate(['/dashboard/task'])
       }
     });
   }
@@ -37,8 +37,7 @@ export class LoginComponent implements OnInit {
     this.isLoading = true; 
     this.authService.loginByEmail( email , password )
     .then( data =>{
-      alert('Welcome!');
-      this.router.navigate(['task'])
+      this.router.navigate(['/dashboard/task'])
     })
     //Capturo errores de LogIn como Usuario no encontrado o Datos Incorrectos
     .catch( err => {

@@ -22,6 +22,7 @@ import { PageNavigationComponent } from './navigation/page-navigation/page-navig
 import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
 import { WindowSize } from './services/utilities/window-size';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UsersComponent } from './views/users/users.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CustomModalComponent,
     HeaderComponent,
     PageNavigationComponent,
-    LoginNavigationComponent
+    LoginNavigationComponent,
+    UsersComponent
   ],
   imports: [
     AppRoutingModule,

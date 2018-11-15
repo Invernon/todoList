@@ -7,35 +7,50 @@ import { CanActivate } from "@angular/router";
 import { AuthGuard } from './guard/auth.guard';
 import { PageNavigationComponent } from './navigation/page-navigation/page-navigation.component';
 import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
+import { AdminGuard } from './guard/admin.guard';
+import { UsersComponent } from './views/users/users.component';
 
 
 const routes: Routes = [
-  {path:'', 
-    children: [
-    {
-      path: 'task',
-      canActivate: [AuthGuard] ,
-      children: [
-        { path: '', component: TaskComponent},
-      ]
-    },
-    ],component : PageNavigationComponent,
-  },
-  
-  { path: 'login' ,
-    children:[
-      { path:'', component:LoginComponent }
-    ],
-    component: LoginNavigationComponent
-  },
-  
-  { path: '**', redirectTo: '/login', },
-  { path: '', redirectTo: '/login', pathMatch: 'full' }
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
 
+  {
+    path: 'dashboard',
+    component: PageNavigationComponent,
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '', redirectTo: 'task' , pathMatch: 'full'
+      },
+      {
+        path: 'task',
+        children: [
+          { path: '', component: TaskComponent },
+        ]
+      }
+    ]
+  },
+  {
+    path: 'admin',
+    component: PageNavigationComponent,
+    // canActivate: [AdminGuard],
+    // canActivateChild: [AdminGuard],
+    children: [
+      { path: 'users', component: UsersComponent },
+    ],
+  },
+  {
+    path: 'login',
+    children: [
+      { path: '', component: LoginComponent }
+    ], component: LoginNavigationComponent
+  },
+
+  { path: '**', redirectTo: '/login', },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {scrollPositionRestoration: 'enabled' })],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
