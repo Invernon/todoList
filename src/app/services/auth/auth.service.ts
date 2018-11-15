@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, Action, DocumentSnapshot } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
+import { User } from 'src/app/models/user';
 
 
 @Injectable({
@@ -12,15 +13,19 @@ import { map } from 'rxjs/operators';
 })
 export class AuthService {
 
+  public static usersPath = '/users';
   // Creamos una variable que se llama user y se le asigna el tipo Observable con las propiedades de
   // un usuario de Firebase, con sus respectivos Métodos.
-  public user : Observable<firebase.User>;
-  public isAdmin : boolean; 
-  public user$: Observable<any>
+  public user$: Observable<firebase.User>;
+  public profile$: Observable<{
+    data: User,
+    ref: firebase.firestore.DocumentReference
+   } | null>;
 
-  constructor( private afAuth:AngularFireAuth, private afs:AngularFirestore, private router:Router ) {
-    this.user = afAuth.authState;
-  
+
+  constructor( private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router ) {
+    this.user$ = afAuth.authState;
+
     // this.user$ = this.afAuth.authState.pipe(
     //     switchMap( user => {
     //     if (user){
@@ -28,55 +33,81 @@ export class AuthService {
     //     }else{
     //       return Observable.throw(null)
     //     }
-    //   }) 
+    //   })
     // )
-    
+
     // Verificamos si el usuario es Admin y lo colocamos en el servicio.
-    
-    this.user.subscribe( data => {
-      this.afs.collection('/users').doc(data.uid).get().subscribe( user => {
-        this.isAdmin = user.data().admin; 
+
+    this.profile$ = this.user$.pipe(
+      switchMap((user) => {
+        if (user) {
+          return this.afs.collection(AuthService.usersPath).doc(user.uid).snapshotChanges();
+        } else {
+          return null;
+        }
+      }),
+      map((snapshot: any) => {
+        if (snapshot) {
+          return {
+            data: snapshot.payload.data() as User,
+            ref: snapshot.payload.ref
+          };
+        } else {
+          return snapshot;
+        }
       })
-    })
+    );
   }
 
-  loginByEmail( email:string, password:string ){
-    return this.afAuth.auth.signInWithEmailAndPassword(email,password);
+  loginByEmail(email: string, password: string) {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  registerByEmail( email:string , password: string){
-    return this.afAuth.auth.createUserWithEmailAndPassword(email,password);
-  }
-
-  registerByEmailAdmin( email:string , password: string){
-    if( this.isAdmin ){
-      return this.afAuth.auth.createUserWithEmailAndPassword(email,password);
-    }
-    else{
-      return this.throwError()
-    }
-  }
-
-  //Logout Method. 
-  logout():void{
-    this.afAuth.auth.signOut()
-    .then( data => {
-      this.router.navigate(['login'])
-    })
-    .catch( err => {
-        console.log(err.message)
-    })      
-  }
-
-  getUser(){
-    return this.user; 
-  }
-
-  throwError() {
-    return new Promise<any>( () => {
-      throw new Error('You Shouldn`t be here');
+  registerByEmail(email: string , password: string, displayName: string) {
+    return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      return this.createUserProfile(user.user.uid, user.user.email, displayName || user.user.displayName);
     });
-}
+  }
 
+  createUserProfile(uid: string, email: string, displayName?: string, isAdmin?: boolean) {
+    return this.afs.collection(AuthService.usersPath).doc(uid).set(
+      {
+        email: email,
+        name: displayName || displayName || 'Sin Nombre',
+        admin: isAdmin,
+      },
+      {
+        merge: true
+      }
+    );
+  }
 
+  registerByEmailAdmin(email: string, password: string, displayName?: string, isAdmin?: boolean) {
+    return this.profile$.pipe(
+      first()
+    ).toPromise().then((profile) => {
+      if (profile.data.admin) {
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
+          return this.createUserProfile(user.user.uid, user.user.email, displayName || user.user.displayName, isAdmin);
+        });
+      } else {
+        throw new Error('You Shouldn`t be here');
+      }
+    });
+  }
+
+  // Logout Method.
+  logout() {
+    return this.afAuth.auth.signOut()
+      .then( data => {
+        this.router.navigate(['login']);
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  }
+
+  getProfile() {
+    return this.profile$.pipe(first()).toPromise();
+  }
 }

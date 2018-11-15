@@ -5,52 +5,73 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
+import { User } from 'src/app/models/user';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class ListService {
-  user: any;
 
   constructor(
     private afs: AngularFirestore,
     private authService: AuthService,
     private userService: UserService
-  ) { 
- 
-    this.authService.getUser().subscribe(data => {
-      this.user = data;
-    })
+  ) { }
 
-    console.log(this.user)
-   }
-
-    private taskPath: string = '/tasks'
-    private userPath: string = '/users'
+    private taskPath = '/tasks';
+    private userPath = '/users';
 
   // Crear una tarea
-  public createTask(data: {name: string, type: string, detail: string, priority:string}) {
-    return this.afs.collection(this.userPath).doc(this.user.uid).collection(this.taskPath).add(data);
+  public createTask(
+    data: {
+      name: string,
+      type: string,
+      detail: string,
+      priority: string
+    }
+  ) {
+    return this.authService.profile$.toPromise().then((profile) => {
+      if (profile) {
+        return this.afs.doc(profile.ref.path).collection(this.taskPath).add(data);
+      }
+    });
   }
 
-  //Obtiene una tarea
+  // Obtiene una tarea
   public getTask(documentId: string) {
-    return this.afs.collection(this.userPath).doc(this.user.uid).collection(this.taskPath).doc(documentId).snapshotChanges();
+    return this.authService.profile$.pipe(
+      switchMap(profile => {
+        if (profile) {
+          return this.afs.doc(profile.ref.path).collection(this.taskPath).doc(documentId).snapshotChanges();
+        }
+      })
+    );
   }
 
-  //Obtiene todas las tareas
+  // Obtiene todas las tareas
   public getTasks() {
-    return this.afs.collection(this.userPath).doc(this.user.uid).collection(this.taskPath , ref => ref.orderBy('name') ).snapshotChanges();
+    return this.authService.profile$.pipe(
+      switchMap(profile => {
+        if (profile) {
+          return this.afs.doc(profile.ref.path).collection(this.taskPath, ref => ref.orderBy('name') ).snapshotChanges();
+        }
+      })
+    );
   }
 
-  //Actualiza una tarea para un Usuario
+  // Actualiza una tarea para un Usuario
   public updateTask(documentId: string, data: any) {
-    return this.afs.collection(this.userPath).doc(this.user.uid).collection(this.taskPath).doc(documentId).set(data);
-  };
+    this.authService.getProfile().then(profile => {
+      return this.afs.doc(profile.ref.path).collection(this.taskPath).doc(documentId).set(data);
+    });
+  }
 
-  //Actualiza una tarea
+  // Actualiza una tarea
   public deleteTask(documentId: string) {
-    return this.afs.collection(this.userPath).doc(this.user.uid).collection(this.taskPath).doc(documentId).delete();
+    this.authService.getProfile().then(profile => {
+      return this.afs.doc(profile.ref.path).collection(this.taskPath).doc(documentId).delete();
+    });
   }
 }

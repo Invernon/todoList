@@ -13,7 +13,7 @@ import { ConsoleReporter } from 'jasmine';
 })
 export class AdminGuard implements CanActivate {
   user: any;
-  isAdmin= new Subject;
+  isAdmin = new Subject;
 
   constructor(
     private router: Router,
@@ -24,7 +24,7 @@ export class AdminGuard implements CanActivate {
   ) {
       //Verificamos si el usuario es Admin y lo colocamos en el servicio.
 
-      // this.authService.user.pipe( 
+      // this.authService.user.pipe(
       //   take(1),
       //   map(user => user.  ?  true : false),
       //   tap(isAdmin => {
@@ -33,28 +33,28 @@ export class AdminGuard implements CanActivate {
       //       console.error('EEEEE')
       //     }
       //   })
-      // ) 
-        
+      // )
+
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-     
+
       return true
       // this.afAuth.authState.subscribe( data => {
       //   this.afs.collection('/users').doc(data.uid).get().subscribe( user => {
-      //     if( user.data().admin ) 
+      //     if( user.data().admin )
       //       return true
-      //     else { 
+      //     else {
       //       return false
       //       }
       //   })
       // })
 
-      // return this.afAuth.authState.pipe( 
+      // return this.afAuth.authState.pipe(
       //   take(1),
-      //   switchMap( user => { 
+      //   switchMap( user => {
       //     return this.userService.getActualUser().uid
       //     }),
       //   map( profile => !!(profile[0].admin) ),
