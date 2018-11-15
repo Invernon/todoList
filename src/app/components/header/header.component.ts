@@ -12,7 +12,7 @@ import { WindowScrolling } from 'src/app/services/utilities/window-scrolling';
 export class HeaderComponent implements OnInit {
   isAdmin: any;
   user: any;
-  showModal: boolean;
+  showModal = false;
   displayName: any;
   
   constructor(
@@ -22,7 +22,7 @@ export class HeaderComponent implements OnInit {
     private windowScrolling: WindowScrolling) { }
 
   async ngOnInit() {
-    this.user = await this.userService.isAdmin().subscribe(data => {
+    this.user = await this.userService.isAdmin().subscribe( data => {
       this.isAdmin = data.data().admin;
       this.displayName = data.data().name;
     })

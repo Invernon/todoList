@@ -24,6 +24,8 @@
     left: 0;
     right: 0;
     bottom: 0;
+    visibility: hidden;
+    opacity: 0;
     padding: 10px;
     transition: 450ms ease-in-out;
     // box-shadow: 0 0 10px 2px #717171

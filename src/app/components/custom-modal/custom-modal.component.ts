@@ -49,14 +49,14 @@ export class CustomModalComponent implements OnInit {
   submitForm(){
     let user = this.newUserForm.value;
 
-    this.authService.registerByEmail(user.email, user.password)
+    this.authService.registerByEmailAdmin(user.email, user.password)
     .then( data => {
       this.userService.createUser( user , data );
+      this.closeModal.emit();
     })
     .catch( err => {
       alert(err.message)
     })
-    this.closeModal.emit();
   }
 
 }

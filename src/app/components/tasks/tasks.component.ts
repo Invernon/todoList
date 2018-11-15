@@ -6,7 +6,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { WindowSize } from 'src/app/services/utilities/window-size';
 import { Observable } from 'rxjs';
 import { trigger,state,style,transition,animate,keyframes } from '@angular/animations';
-
+import { Task } from '../../models/task';
 
 
 
@@ -28,7 +28,7 @@ import { trigger,state,style,transition,animate,keyframes } from '@angular/anima
 })
 export class TasksComponent implements OnInit {
 
-  tasks = [];
+  tasks: Array<Task>;
   options = [];
   taskForm = this.fb.group({
     name:  ['' , Validators.required],
@@ -39,9 +39,9 @@ export class TasksComponent implements OnInit {
 
   addForm = false;
   editTaskForm: boolean = false;
-  taskID: any;
+  taskID: string;
   isMobile$: Observable<boolean>;
-  taskOpen: any;
+  taskOpen: string;
   isMobile: boolean;
 
   constructor( 
@@ -55,20 +55,17 @@ export class TasksComponent implements OnInit {
    }
 
   trackByFn(index, item) {
-    return item.id
+    return item._id
   }
 
   async ngOnInit() {
     await this.listService.getTasks().subscribe( (taskSnapshots) => {
-      console.log(taskSnapshots)
-      this.tasks = taskSnapshots.map(snap => {
+      //preguntar Font
+      ( this.tasks as any )= taskSnapshots.map(snap => {
         let obj = {
-          id: snap.payload.doc.id,
+          _id: snap.payload.doc.id,
           ...snap.payload.doc.data(),
           showDetail:false
-          //notacion ... literalmente copia la estructura de la data como viene, si el campo
-          //dice name: "Hola" ,
-          // Nuestro objeto tendra una propiedad que se llama name: "hola"
         }
         return obj;
       })
@@ -87,19 +84,19 @@ export class TasksComponent implements OnInit {
 
   editTask(task){
     this.addForm = true;
-    this.taskID = task.id;
+    this.taskID = task._id;
     this.taskForm.patchValue(task);
     this.editTaskForm = true;
   }
 
   openDetail(task){
     this.tasks.forEach(element => {
-      if(element.id === task.id){
-        if( this.taskOpen === task.id){
+      if(element._id === task._id){
+        if( this.taskOpen === task._id){
           element.showDetail = false;
           this.taskOpen = '';
         }else{
-          this.taskOpen = element.id;
+          this.taskOpen = element._id;
           element.showDetail = true;
           }
         }else{
@@ -113,7 +110,7 @@ export class TasksComponent implements OnInit {
 
     if(this.editTaskForm){
       this.editTaskForm = false;
-      this.listService.updateTask(id,this.taskForm.value)
+      this.listService.updateTask(id , this.taskForm.value)
     }
     else{
       this.listService.createTask(this.taskForm.value)
@@ -121,7 +118,6 @@ export class TasksComponent implements OnInit {
   }
 
   detailState( value , isMobile ){
-    console.log(value , isMobile)
     let state = value && isMobile ? 'show' : 'hide';
     return state;
   }

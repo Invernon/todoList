@@ -1,7 +1,7 @@
 <div class="inner-container">
   <div class="list-container flex-end">
     <div class="list-quantity">
-      <span> Total: {{tasks.length}} </span>
+      <span> Total: {{tasks?.length}} </span>
     </div>
     <div class="list-top-separator">
     </div>
@@ -76,8 +76,8 @@
   </div>
   <!-- Iteracion para mostar las tareas guardadas -->
   <div class="list-item" *ngFor="let task of tasks; trackBy: trackByFn" [ngStyle]="{
-          'border-left-color' : getBorderColor(task.priority)}"
-    [@marginAnimation]='detailState(task.showDetail , (isMobile$ | async))'>
+          'border-left-color' : getBorderColor(task?.priority)}"
+    [@marginAnimation]='detailState(task?.showDetail , (isMobile$ | async))'>
 
     <ng-container *ngIf="!(isMobile$ | async); else responsiveList">
       <div class="list-name">
@@ -94,7 +94,7 @@
 
       <div class="list-action">
         <button class="button mx-1" (click)="editTask(task)"> Editar </button>
-        <button class="button mx-1 danger" (click)="deleteTask(task.id)"> Eliminar </button>
+        <button class="button mx-1 danger" (click)="deleteTask(task._id)"> Eliminar </button>
       </div>
     </ng-container>
 
@@ -111,13 +111,13 @@
         </div>
         <div class="list-action">
           <a (click)="editTask(task)"> <i class="fas fa-pencil-alt"></i> </a>
-          <a (click)="deleteTask(task.id)"> <i class="fas fa-trash-alt"></i> </a>
+          <a (click)="deleteTask(task._id)"> <i class="fas fa-trash-alt"></i> </a>
         </div>
       </div>
     </ng-template>
   </div>
 
-  <div class="list-container flex-center" *ngIf="tasks.length == 0 ">
+  <div class="list-container flex-center" *ngIf="tasks?.length == 0 ">
     <h2> Gratz, you are free! for now...</h2>
   </div>
 
