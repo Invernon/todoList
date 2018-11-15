@@ -17,7 +17,9 @@ export class LoginComponent implements OnInit {
  
   ngOnInit() {
     this.createLoginForm();
-    this.authService.user.subscribe( data => {
+    this.authService.user$.subscribe( 
+      data => {
+        console.log(data)
       if(data){
         this.router.navigate(['/dashboard/task'])
       }

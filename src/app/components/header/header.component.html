@@ -1,11 +1,12 @@
 <div class="header-container">
   <div class="header-left"> 
-    <span *ngIf="isAdmin" (click)="newUser()" class="justify-left">
+    <span *ngIf="(profile$ | async)?.data.admin" (click)="newUser()" class="justify-left">
         <i class="fas fa-plus-circle"></i>
     </span>
   </div>
+  <button (click)="hack()"> HACKERMAN  </button>
   <div class="header-center">
-    <span class="title"> {{ isAdmin ? 'Admin: ' : 'TODO List -'}} {{ displayName }}  </span>
+    <span class="title"> {{ (profile$ | async)?.data.admin ? 'Admin: ' : 'TODO List -'}} {{ (profile$ | async)?.data.name }}  </span>
   </div>
   <div class="header-right"> 
     <span (click)="logout()" class="justify-right"> Salir </span>
