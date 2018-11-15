@@ -9,16 +9,16 @@ import { AuthService } from '../auth/auth.service';
 export class UserService {
 
   user: any;
-  private userPath: string = '/users'
- 
-  constructor(private afs:AngularFirestore, private afAuth: AngularFireAuth, private authService:AuthService) { 
+  private userPath = '/users';
+
+  constructor(private afs: AngularFirestore, private afAuth: AngularFireAuth, private authService:AuthService) {
     this.authService.user.subscribe( data => {
       this.user = data;
     })
   }
 
   public getActualUser(){
-    return this.user;
+    return this.authService.getProfile();
   }
 
   public isAdmin(){
@@ -27,17 +27,7 @@ export class UserService {
 
     //Crear un usuario
     public createUser(data: {email: string, password: string, name:string, admin: boolean} , user:any) {
-      let id = user.user.uid;
-      let newUser = {
-        email: user.user.email,
-        name: (user.user.displayName) ? user.user.displayName : data.name,
-        admin: data.admin,   
-      };
-      
-      return this.afs.collection(this.userPath).doc(id).set(
-        {...newUser},
-        {merge:true }
-      );
+
   }
 
 

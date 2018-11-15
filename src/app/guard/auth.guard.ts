@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from '../services/auth/auth.service';
-import { first, tap, map } from 'rxjs/operators';
+import { first, tap, map, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,11 +24,14 @@ export class AuthGuard implements CanActivate {
     return this.afAuth.authState.pipe(first())
   }
 
-  canActivate(next: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {  
-    //PREGUNTAR EL USO DEL MAP ,TAP
-    
+  canActivate(
+    next: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean> | Promise<boolean> | boolean {
+    //PREGUNTAR EL USO DEL MAP, TAP
+
     return this.afAuth.authState.pipe(
-      map(user => !!user),
+      switchMap(user => of(!!user)),
       tap(isLogged => {
         if (isLogged) {
           // console.log('Esta Logeado', isLogged);
