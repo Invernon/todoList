@@ -6,7 +6,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { take, switchMap, map, tap } from 'rxjs/operators';
 import { UserService } from '../services/user/user.service';
-import { ConsoleReporter } from 'jasmine';
 
 @Injectable({
   providedIn: 'root'
