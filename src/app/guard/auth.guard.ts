@@ -27,14 +27,16 @@ export class AuthGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {  
     //PREGUNTAR EL USO DEL MAP ,TAP
     
-    return this.afAuth.authState.pipe(map(user => !!user), tap(isLogged => {
-      if (isLogged) {
-        // console.log('Esta Logeado', isLogged);
-      } else {
-        // console.log('No Logeado', isLogged);
-        alert("You don't have permission to view this page");
-        this.router.navigate(['/login']);
-      }
+    return this.afAuth.authState.pipe(
+      map(user => !!user),
+      tap(isLogged => {
+        if (isLogged) {
+          // console.log('Esta Logeado', isLogged);
+        } else {
+          // console.log('No Logeado', isLogged);
+          alert("You don't have permission to view this page");
+          this.router.navigate(['/login']);
+        }
     }));
   }
 }
