@@ -18,8 +18,9 @@ export class HeaderComponent implements OnInit {
   user: any;
   showModal = false;
   displayName: any;
+  toggleMenu = false;
   profile$: Observable<{ data: User; ref: firestore.DocumentReference; }>;
-  
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -29,11 +30,8 @@ export class HeaderComponent implements OnInit {
   async ngOnInit() {
 
     this.profile$ = this.authService.profile$;
-    console.log(this.profile$)
-    // this.user = await this.userService.isAdmin().subscribe( data => {
-    //   this.isAdmin = data.data().admin;
-    //   this.displayName = data.data().name;
-    // })
+    console.log(this.profile$);
+
   }
 
   logout() {
@@ -43,7 +41,7 @@ export class HeaderComponent implements OnInit {
   newUser() {
     this.openModal();
   }
-  
+
   openModal() {
     this.showModal = !this.showModal;
     this.windowScrolling.disable();
@@ -54,10 +52,8 @@ export class HeaderComponent implements OnInit {
     this.showModal = false;
   }
 
-  hack(){
-    firebase.app().firestore().doc('/users/4g0ef0ARejbFE3wQk0EMNUNxBEq1').update({
-      admin:true
-    })
+  toggleAMenu(): void {
+    this.toggleMenu = !this.toggleMenu;
   }
 
 }

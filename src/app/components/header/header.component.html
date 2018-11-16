@@ -3,14 +3,35 @@
     <span *ngIf="(profile$ | async)?.data.admin" (click)="newUser()" class="justify-left">
         <i class="fas fa-plus-circle"></i>
     </span>
+    <span *ngIf="!(profile$ | async)?.data.admin">
+        StackIt2
+    </span>
   </div>
-  <button (click)="hack()"> HACKERMAN  </button>
   <div class="header-center">
-    <span class="title"> {{ (profile$ | async)?.data.admin ? 'Admin: ' : 'TODO List -'}} {{ (profile$ | async)?.data.name }}  </span>
+    <span class="title" (click)='toggleAMenu()'> Menu 
+      <span class="caret-icon" [ngClass]="{ 'open' : toggleMenu }"> 
+        <i class="fas fa-caret-down"></i>
+       </span>
+    </span>
   </div>
   <div class="header-right"> 
-    <span (click)="logout()" class="justify-right"> Salir </span>
+    <span class="justify-right"> {{ (profile$ | async)?.data.name }}  </span>
   </div>
 </div>
 
-<app-custom-modal [active]="showModal" (closeModal)="closeModal($event)"></app-custom-modal>
+<div *ngIf="(profile$ | async)?.data.admin" [ngClass]="{ 'show' : toggleMenu }" class="admin-menu">
+  <ul class="menu-list">
+    <li class="menu-item" routerLink='/admin/users'> <span class="menu-item-title"> Users </span> </li>
+    <li class="menu-item" routerLink='/dashboard'> <span class="menu-item-title"> Dashboard </span>   </li>
+    <li class="menu-item" (click)='logout()' > <span class="menu-item-title"> Logout </span>   </li>
+  </ul>
+</div>
+
+<div *ngIf="!(profile$ | async)?.data.admin" [ngClass]="{ 'show' : toggleMenu }" class="admin-menu">
+  <ul class="menu-list">
+    <li class="menu-item" routerLink='/dashboard'> <span class="menu-item-title"> Dashboard </span>   </li>
+    <li class="menu-item" (click)='logout()' > <span class="menu-item-title"> Logout </span>   </li>
+  </ul>
+</div>
+
+<app-custom-modal [active]="(profile$ | async)?.data.admin && showModal" (closeModal)="closeModal($event)"></app-custom-modal>
