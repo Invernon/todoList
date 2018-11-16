@@ -57,7 +57,10 @@ export class AuthService {
         }
       })
     );
+
   }
+
+
 
   loginByEmail(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
@@ -98,7 +101,7 @@ export class AuthService {
 
   // Logout Method.
   logout() {
-    return this.afAuth.auth.signOut()
+    this.afAuth.auth.signOut()
       .then( data => {
         this.router.navigate(['login']);
       })
