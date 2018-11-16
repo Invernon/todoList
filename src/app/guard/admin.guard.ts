@@ -17,54 +17,23 @@ export class AdminGuard implements CanActivate {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private afAuth: AngularFireAuth,
-    private afs: AngularFirestore,
-    private userService: UserService
   ) {
-      //Verificamos si el usuario es Admin y lo colocamos en el servicio.
-
-      // this.authService.user.pipe(
-      //   take(1),
-      //   map(user => user.  ?  true : false),
-      //   tap(isAdmin => {
-      //     console.log(isAdmin)
-      //     if(isAdmin){
-      //       console.error('EEEEE')
-      //     }
-      //   })
-      // )
-
   }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
 
-      return true
-      // this.afAuth.authState.subscribe( data => {
-      //   this.afs.collection('/users').doc(data.uid).get().subscribe( user => {
-      //     if( user.data().admin )
-      //       return true
-      //     else {
-      //       return false
-      //       }
-      //   })
-      // })
+      return this.authService.profile$.pipe(
+        map( data  => data.data.admin ),
+        tap ( data => {
+          if ( data ) {
 
-      // return this.afAuth.authState.pipe(
-      //   take(1),
-      //   switchMap( user => {
-      //     return this.userService.getActualUser().uid
-      //     }),
-      //   map( profile => !!(profile[0].admin) ),
-      //   tap( isAdmin => {
-      //     if( isAdmin ){
-      //       console.log('you shall pass')
-      //     }else{
-      //       console.log('you shall NO pass')
-      //       this.router.navigate(['/']);
-      //     }
-      //   })
-      // )
+          } else {
+            alert('you shall NO pass');
+            this.router.navigate(['dashboard']);
+          }
+        })
+      );
   }
 }

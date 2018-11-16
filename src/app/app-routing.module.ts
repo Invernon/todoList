@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { TaskComponent } from './views/task/task.component';
 import { LoginComponent } from './views/login/login.component';
-import { CanActivate } from "@angular/router";
 import { AuthGuard } from './guard/auth.guard';
 import { PageNavigationComponent } from './navigation/page-navigation/page-navigation.component';
 import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
@@ -33,8 +32,7 @@ const routes: Routes = [
   {
     path: 'admin',
     component: PageNavigationComponent,
-    // canActivate: [AdminGuard],
-    // canActivateChild: [AdminGuard],
+    canActivate: [AdminGuard],
     children: [
       { path: 'users', component: UsersComponent },
     ],
