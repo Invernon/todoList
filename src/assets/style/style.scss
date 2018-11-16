@@ -3,11 +3,15 @@
 @import '../style/button.scss';
 @import '../style/form.scss';
 
+$min-width-page: 300px;
+
 .flex-container{
     background-color: $secondary-dark;
     width: 100%;
     min-height: calc(100vh - 60px);
     padding: 1pc;
+    //min width para que no se dañe.
+    min-width: $min-width-page;
 }
 
 .inner-container{
@@ -19,4 +23,10 @@
     // box-shadow: 0 0 10px $caramel;
     color: #333;
     
+}
+
+@media (max-width:767px){
+    .flex-container{
+        padding: 0;
+    }
 }

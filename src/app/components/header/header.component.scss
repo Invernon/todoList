@@ -3,6 +3,7 @@
 .header-container{
     position: relative;
     width: 100%;
+    min-width: $min-width-page;
     background-color:$primary;
     color:white;
     height: 60px;
