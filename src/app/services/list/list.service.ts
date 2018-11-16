@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-//Se importa Angular FireStore y FirestoreDocument , para poder interactuar con afs
+// Se importa Angular FireStore y FirestoreDocument , para poder interactuar con afs
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 // Se agrega la libreria de rxjs/Observables para poder utilizar la data traida de FireStore
 import { Observable } from 'rxjs';
@@ -24,7 +24,7 @@ export class ListService {
     private userPath = '/users';
 
   // Crear una tarea
-  public createTask(
+  async createTask(
     data: {
       name: string,
       type: string,
@@ -32,7 +32,7 @@ export class ListService {
       priority: string
     }
   ) {
-    return this.authService.profile$.toPromise().then((profile) => {
+    return this.authService.profile$.subscribe( profile => {
       if (profile) {
         return this.afs.doc(profile.ref.path).collection(this.taskPath).add(data);
       }
