@@ -20,12 +20,14 @@
           <div class="form-group custom-input">
             <label>Name</label>
             <input type="text" formControlName="name">
+            <span class="input-error" [ngClass]="{ 'show' : name.errors?.maxlength }"> Must be lower than 20 characters </span>
           </div>
         </div>
         <div class="col-12 col-md-3">
           <div class="form-group custom-input">
             <label>Type</label>
             <input type="text" formControlName="type">
+            <span class="input-error" [ngClass]="{ 'show' : type.errors?.maxlength }"> Must be lower than 10 characters </span>
           </div>
         </div>
         <div class="col-12 col-md-3">
@@ -34,12 +36,14 @@
             <select formControlName="priority">
               <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
             </select>
+            <span class="input-error" [ngClass]="{ 'show' : priority.errors?.required && priority.touched }"> This field is required </span>
           </div>
         </div>
         <div class="col-12 col-md-9">
           <div class="form-group custom-input text-area">
             <label>Details</label>
             <textarea formControlName="detail"></textarea>
+            <span class="input-error" [ngClass]="{ 'show' : detail.errors?.maxlength }"> Must be lower than 400 characters </span>
           </div>
         </div>
         <div class="col-12">
