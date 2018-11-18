@@ -23,6 +23,8 @@ import { LoginNavigationComponent } from './navigation/login-navigation/login-na
 import { WindowSize } from './services/utilities/window-size';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './views/users/users.component';
+import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { UsersComponent } from './views/users/users.component';
     HeaderComponent,
     PageNavigationComponent,
     LoginNavigationComponent,
-    UsersComponent
+    UsersComponent,
+    LoadingScreenComponent,
+    LoadingComponent
   ],
   imports: [
     AppRoutingModule,

@@ -11,19 +11,21 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 export class LoginComponent implements OnInit {
 
   public loginForm: FormGroup;
-  public isLoading = false
+  public isLoading = false;
 
-  constructor( private fb: FormBuilder, private router: Router , private authService: AuthService) { }
- 
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
+
   ngOnInit() {
     this.createLoginForm();
-    this.authService.user$.subscribe( 
+    this.authService.user$.subscribe(
       data => {
-        console.log(data)
-      if(data){
-        this.router.navigate(['/dashboard/task'])
-      }
-    });
+        if (data) {
+          this.isLoading = true;
+          this.router.navigate(['/dashboard/task']);
+        } else {
+          this.isLoading = false;
+        }
+      });
   }
 
   createLoginForm() {
@@ -33,19 +35,19 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  loginSubmit(){
-    let email = this.loginForm.value.email;
-    let password = this.loginForm.value.password;
-    this.isLoading = true; 
-    this.authService.loginByEmail( email , password )
-    .then( data =>{
-      this.router.navigate(['/dashboard/task'])
-    })
-    //Capturo errores de LogIn como Usuario no encontrado o Datos Incorrectos
-    .catch( err => {
-      this.isLoading = false
-      alert( err.message )
-    })
+  loginSubmit() {
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
+    this.isLoading = true;
+    this.authService.loginByEmail(email, password)
+      .then(data => {
+        this.router.navigate(['/dashboard/task']);
+      })
+      // Capturo errores de LogIn como Usuario no encontrado o Datos Incorrectos
+      .catch(err => {
+        this.isLoading = false;
+        alert(err.message);
+      });
   }
 
 }
