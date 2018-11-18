@@ -1,0 +1,11 @@
+<div class="custom-progress" [ngStyle]='setBackgroundColor()'>
+  <div class="custom-progress-bar" 
+      [ngClass]="{  'custom-progress-bar-striped' : striped ,
+                    'custom-progress-bar-animated': animated  }"
+      [ngStyle]='setBarProperties()' >
+  </div>
+  <div class="custom-progress-value" *ngIf="displayValue" >
+      {{ value < 100 ? value : 'COMPLETED' }}
+      <span *ngIf="value < 100" [ngClass]="setUnitClass()"></span>
+  </div>
+</div>

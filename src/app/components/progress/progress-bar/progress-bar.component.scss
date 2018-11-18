@@ -1,0 +1,64 @@
+// Default Colors : 
+// Bar: #b6b6b6
+// BackgroundColor: #fff
+// FontColor: #000
+
+.custom-progress{
+    display: flex;
+    height: 1.5rem;
+    overflow: hidden;
+    font-size: .75rem;
+    background-color: #e9ecef;
+    border-radius: .25rem;
+    text-align: center;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    padding: 1px;
+}
+
+.custom-progress-bar{
+    height: 1.4rem;
+    display: flex;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    background-color: #b6b6b6;
+    transition: width .6s ease;
+}
+
+.custom-progress-bar-striped{
+    background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+    background-size: 2rem 2rem;
+}
+
+.custom-progress-bar-animated {
+    animation: progress-bar-stripes 1s linear infinite;
+}
+  
+
+.custom-progress-value {
+    position: absolute;
+    font-size: 1rem;
+    line-height: 1.4rem;
+    font-weight: bold;
+}
+
+.custom-progress-value .unit-percentage:after{
+    content: '%';
+    margin-left: 2px;
+    font-weight: 200;
+}
+
+.custom-progress-value .unit-default:after{
+    content: '';
+    margin-left: 2px;
+    font-weight: 200;
+}
+
+@keyframes progress-bar-stripes {
+    from { background-position: 2rem 0; }
+    to { background-position: 0 0; }
+  }
+  

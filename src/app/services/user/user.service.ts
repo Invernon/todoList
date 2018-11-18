@@ -17,7 +17,7 @@ export class UserService {
     // })
   }
 
-  public getActualUser(){
+  public getActualUser() {
     return this.authService.getProfile();
   }
 
@@ -25,11 +25,8 @@ export class UserService {
   //   return this.afs.collection(this.userPath).doc(this.user.uid).get()
   // }
 
-  //Crear un usuario
-  public createUser(data: {email: string, password: string, name:string, admin: boolean} , user:any) {
+  // Crear un usuario
+  public createUser(data: {email: string, password: string, name: string, admin: boolean} , user: any) {
 
   }
-
-
-
 }

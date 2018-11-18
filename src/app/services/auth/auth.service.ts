@@ -26,18 +26,6 @@ export class AuthService {
   constructor( private afAuth: AngularFireAuth, private afs: AngularFirestore, private router: Router ) {
     this.user$ = afAuth.authState;
 
-    // this.user$ = this.afAuth.authState.pipe(
-    //     switchMap( user => {
-    //     if (user){
-    //       return this.afs.collection('/users').doc(user.uid).valueChanges()
-    //     }else{
-    //       return Observable.throw(null)
-    //     }
-    //   })
-    // )
-
-    // Verificamos si el usuario es Admin y lo colocamos en el servicio.
-
     this.profile$ = this.user$.pipe(
       switchMap((user) => {
         if (user) {
@@ -60,13 +48,11 @@ export class AuthService {
 
   }
 
-
-
   loginByEmail(email: string, password: string) {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  registerByEmail(email: string , password: string, displayName: string) {
+  async registerByEmail(email: string , password: string, displayName: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
       return this.createUserProfile(user.user.uid, user.user.email, displayName || user.user.displayName);
     });
@@ -85,7 +71,7 @@ export class AuthService {
     );
   }
 
-  registerByEmailAdmin(email: string, password: string, displayName?: string, isAdmin?: boolean) {
+  async registerByEmailAdmin(email: string, password: string, displayName?: string, isAdmin?: boolean) {
     return this.profile$.pipe(
       first()
     ).toPromise().then((profile) => {
