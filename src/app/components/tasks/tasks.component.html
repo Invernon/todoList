@@ -59,9 +59,13 @@
     </form>
   </div>
 
+<ng-container  *ngIf="!isReady; else taskWrapper">
+  <app-loading-screen message="Loading Tasks" [status]='isReady' > </app-loading-screen>
+</ng-container>
 
-
-  <div class="list-container list-header">
+  <ng-template #taskWrapper> 
+ 
+    <div class="list-container list-header">
     <div class="list-name">
       <span> Name </span>
     </div>
@@ -124,5 +128,7 @@
   <div class="list-container flex-center" *ngIf="tasks?.length == 0 ">
     <h2> Gratz, you are free! for now...</h2>
   </div>
+
+</ng-template >
 
 </div>

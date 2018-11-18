@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
   async ngOnInit() {
 
     this.profile$ = this.authService.profile$;
-    console.log(this.profile$);
 
   }
 

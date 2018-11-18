@@ -7,6 +7,7 @@ import { WindowSize } from 'src/app/services/utilities/window-size';
 import { Observable } from 'rxjs';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { Task } from '../../models/task';
+import { debounceTime } from 'rxjs/operators';
 
 
 
@@ -16,13 +17,13 @@ import { Task } from '../../models/task';
   styleUrls: ['./tasks.component.scss'],
   animations: [
     trigger('marginAnimation', [
-      state('hide' , style ({
+      state('hide', style({
         marginBottom: '4px',
       })),
-      state('show' , style ({
+      state('show', style({
         marginBottom: '45vh',
       })),
-      transition( 'hide <=> show' , animate('.350s ease-in-out'))
+      transition('hide <=> show', animate('.350s ease-in-out'))
     ]),
   ]
 })
@@ -31,11 +32,12 @@ export class TasksComponent implements OnInit {
   tasks: Array<Task>;
   options = [];
   taskForm = this.fb.group({
-    name:  ['' , [Validators.required, Validators.maxLength(20)]],
-    type: ['' , [Validators.required , Validators.maxLength(10)]],
+    name: ['', [Validators.required, Validators.maxLength(20)]],
+    type: ['', [Validators.required, Validators.maxLength(10)]],
     detail: ['', [Validators.required, Validators.maxLength(400)]],
     priority: ['', Validators.required],
   });
+  isReady: boolean;
 
   get name() {
     return this.taskForm.get('name');
@@ -55,7 +57,7 @@ export class TasksComponent implements OnInit {
   taskID: string;
   isMobile$: Observable<boolean>;
   taskOpen: string;
-  isMobile: boolean;
+  isMobile = false;
 
   constructor(
     private listService: ListService,
@@ -65,21 +67,21 @@ export class TasksComponent implements OnInit {
 
     this.options = this.optionsService.getAll();
     this.isMobile$ = this.windowSize.isMobileObservable;
-    console.log ( this.name );
-   }
+  }
 
   trackByFn(index, item) {
     return item._id;
   }
 
   async ngOnInit() {
-    await this.listService.getTasks().subscribe( (taskSnapshots) => {
-      ( this.tasks as any ) = taskSnapshots.map(snap => {
+    await this.listService.getTasks().subscribe((taskSnapshots) => {
+      (this.tasks as unknown) = taskSnapshots.map(snap => {
         const obj = {
           _id: snap.payload.doc.id,
           ...snap.payload.doc.data(),
           showDetail: false
         };
+        this.isReady = false;
         return obj;
       });
     });
@@ -104,14 +106,14 @@ export class TasksComponent implements OnInit {
   openDetail(task) {
     this.tasks.forEach(element => {
       if (element._id === task._id) {
-        if ( this.taskOpen === task._id) {
+        if (this.taskOpen === task._id) {
           element.showDetail = false;
           this.taskOpen = '';
         } else {
           this.taskOpen = element._id;
           element.showDetail = true;
-          }
-        } else {
+        }
+      } else {
         element.showDetail = false;
       }
     });
@@ -121,7 +123,7 @@ export class TasksComponent implements OnInit {
     this.addForm = false;
     if (this.editTaskForm) {
       this.editTaskForm = false;
-      this.listService.updateTask(id , this.taskForm.value);
+      this.listService.updateTask(id, this.taskForm.value);
     } else {
       this.listService.createTask(this.taskForm.value).then(data => {
         if (data) {
@@ -129,14 +131,14 @@ export class TasksComponent implements OnInit {
         }
       }
       )
-      .catch( err => {
-        console.log(err.message);
-      });
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 
-  detailState( value , isMobile ) {
-    const detailState = ( value && isMobile ) ? 'show' : 'hide';
+  detailState(value, isMobile) {
+    const detailState = (value && isMobile) ? 'show' : 'hide';
     return detailState;
   }
 
