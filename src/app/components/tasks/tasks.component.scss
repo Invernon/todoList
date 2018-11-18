@@ -181,3 +181,42 @@
 .custom-input label{
     font-weight: bold;
 }
+
+//DRAG CSS
+
+.list-item-sortable{
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.list-item-sortable li{
+    cursor: pointer;
+}
+
+.draggable-container--is-dragging {
+    // border: 5px grey solid;
+}
+
+.draggable-source--is-dragging {
+    transform: scale(.95);
+    background: lightgray;
+}
+
+.draggable-source--placed {
+    transform: scale(1);
+    transition: transform 5s ease-in;
+}
+
+.draggable-mirror {
+    background: red;
+    display: block;
+    width: 90%;
+    padding: .5pc;
+    margin-bottom: 4px;
+    display: flex;
+    border-left: 4px solid;
+    // border-bottom: 4px solid;
+    background-color: $secondary-light;
+
+}

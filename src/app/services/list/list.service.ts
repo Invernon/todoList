@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 import { UserService } from '../user/user.service';
 import { User } from 'src/app/models/user';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,7 @@ export class ListService {
     private userService: UserService
   ) { }
 
-    private taskPath = '/tasks';
-    private userPath = '/users';
+  private taskPath = '/tasks';
 
   // Crear una tarea
   async createTask(
@@ -32,7 +32,7 @@ export class ListService {
       priority: string
     }
   ) {
-    return this.authService.profile$.subscribe( profile => {
+    return this.authService.profile$.subscribe(profile => {
       if (profile) {
         return this.afs.doc(profile.ref.path).collection(this.taskPath).add(data);
       }
@@ -55,7 +55,7 @@ export class ListService {
     return this.authService.profile$.pipe(
       switchMap(profile => {
         if (profile) {
-          return this.afs.doc(profile.ref.path).collection(this.taskPath, ref => ref.orderBy('name') ).snapshotChanges();
+          return this.afs.doc(profile.ref.path).collection(this.taskPath).snapshotChanges();
         }
       })
     );
@@ -74,4 +74,61 @@ export class ListService {
       return this.afs.doc(profile.ref.path).collection(this.taskPath).doc(documentId).delete();
     });
   }
+
+  // middleware para comprobar el array de orden de las task.
+  public checkTaskOrder() {
+    return this.authService.profile$.pipe(
+      switchMap(profile => {
+        if (profile) {
+          return this.afs.doc(profile.ref.path).snapshotChanges().pipe(
+            map( data  => {
+              if ( !data.payload.data().taskOrder ) {
+                console.log('No tiene task Orders');
+                this.fillTaskArray( profile.ref.path );
+                return data;
+              } else {
+                console.log('Ya tiene task Orders');
+                return null;
+              }
+            })
+          );
+        }
+      })
+    );
+  }
+
+public fillTaskArray(path) {
+  const array = [];
+  const aux = [];
+  this.getTasks().subscribe( (taskSnapshots) => {
+    (array as any) = taskSnapshots.map(snap => {
+      const obj = {
+        ref: snap.payload.doc.id,
+      };
+      return obj;
+    }
+  );
+  array.forEach(element => {
+    aux.push(element.ref);
+  });
+    this.createTaskArray( path , aux );
+  });
+
+}
+
+createTaskArray( path , array ) {
+  this.afs.doc(path).set({
+    taskOrder: firestore.FieldValue.arrayUnion(...array)
+  }, {merge: true});
+}
+
+updateTaskArray( taskArray ) {
+  this.authService.getProfile().then(profile => {
+    return  this.afs.doc(profile.ref.path).set({
+      taskOrder: firestore.FieldValue.arrayUnion(...taskArray)
+    }, {merge : true});
+  });
+}
+
+
 }

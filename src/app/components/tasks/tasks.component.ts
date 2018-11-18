@@ -7,9 +7,7 @@ import { WindowSize } from 'src/app/services/utilities/window-size';
 import { Observable } from 'rxjs';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 import { Task } from '../../models/task';
-import { debounceTime } from 'rxjs/operators';
-
-
+import { Sortable } from '@shopify/draggable';
 
 @Component({
   selector: 'app-tasks',
@@ -74,14 +72,18 @@ export class TasksComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.listService.getTasks().subscribe((taskSnapshots) => {
-      (this.tasks as unknown) = taskSnapshots.map(snap => {
+    await this.listService.getTasks().subscribe( (taskSnapshots) => {
+      (this.tasks as any) = taskSnapshots.map(snap => {
         const obj = {
           _id: snap.payload.doc.id,
           ...snap.payload.doc.data(),
           showDetail: false
         };
-        this.isReady = false;
+
+        this.listService.checkTaskOrder().subscribe( data => {
+          return true;
+        });
+        this.isReady = true;
         return obj;
       });
     });
@@ -148,6 +150,11 @@ export class TasksComponent implements OnInit {
 
   getBorderColor(value) {
     return this.optionsService.getBorderColor(value);
+  }
+
+  update(event) {
+    this.listService.updateTaskArray(event);
+    console.log(event);
   }
 
 }
