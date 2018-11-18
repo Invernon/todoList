@@ -72,20 +72,58 @@ export class TasksComponent implements OnInit {
   }
 
   async ngOnInit() {
-    await this.listService.getTasks().subscribe( (taskSnapshots) => {
-      (this.tasks as any) = taskSnapshots.map(snap => {
-        const obj = {
-          _id: snap.payload.doc.id,
-          ...snap.payload.doc.data(),
-          showDetail: false
-        };
+    // await this.listService.getTasks().subscribe( (taskSnapshots) => {
+    //   (this.tasks as any) = taskSnapshots.map(snap => {
+    //     const obj = {
+    //       _id: snap.payload.doc.id,
+    //       ...snap.payload.doc.data(),
+    //       showDetail: false
+    //     };
 
-        this.listService.checkTaskOrder().subscribe( data => {
-          return true;
-        });
-        this.isReady = true;
-        return obj;
+    //     this.listService.checkTaskOrder().subscribe( data => {
+    //       return true;
+    //     });
+    //     this.isReady = true;
+    //     return obj;
+    //   });
+    // });
+
+    await this.listService.getTasksArray().subscribe( (taskSnapshots) => {
+      this.listService.checkTaskOrder().subscribe( data => {
+            return true;
+          });
+      this.tasks = taskSnapshots;
+      this.tasks.forEach(element => {
+        element.showDetail = false;
       });
+      // ( this.tasks as any ) = taskSnapshots.map( snap => {
+      //   console.log(snap)
+      //   const obj = {
+      //       ...snap.payload.doc.data(),
+      //       showDetail: false
+      //     };
+      //     this.listService.checkTaskOrder().subscribe( data => {
+      //       return true;
+      //     });
+
+      //     this.isReady = true;
+      //     return obj;
+      // });
+      console.log(this.tasks);
+      this.isReady = true;
+      // (this.tasks as any) = taskSnapshots.map(snap => {
+      //   const obj = {
+      //     _id: snap.payload.doc.id,
+      //     ...snap.payload.doc.data(),
+      //     showDetail: false
+      //   };
+
+      //   this.listService.checkTaskOrder().subscribe( data => {
+      //     return true;
+      //   });
+      //   this.isReady = true;
+      //   return obj;
+      // });
     });
   }
 

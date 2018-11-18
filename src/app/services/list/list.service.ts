@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service';
 import { User } from 'src/app/models/user';
 import { switchMap, map } from 'rxjs/operators';
 import { firestore } from 'firebase';
+import { Task } from 'src/app/models/task';
 
 @Injectable({
   providedIn: 'root'
@@ -61,6 +62,21 @@ export class ListService {
     );
   }
 
+  // Obtiene todas las tareas Array
+  public getTasksArray() {
+    return this.authService.profile$.pipe(
+      switchMap(profile => {
+        if (profile) {
+          return this.afs.doc(profile.ref.path).valueChanges().pipe(
+            map( data => {
+                return data.tasks;
+            }),
+          );
+        }
+      })
+    );
+  }
+
   // Actualiza una tarea para un Usuario
   public updateTask(documentId: string, data: any) {
     this.authService.getProfile().then(profile => {
@@ -82,7 +98,7 @@ export class ListService {
         if (profile) {
           return this.afs.doc(profile.ref.path).snapshotChanges().pipe(
             map( data  => {
-              if ( !data.payload.data().taskOrder ) {
+              if ( !data.payload.data().tasks ) {
                 console.log('No tiene task Orders');
                 this.fillTaskArray( profile.ref.path );
                 return data;
@@ -99,33 +115,30 @@ export class ListService {
 
 public fillTaskArray(path) {
   const array = [];
-  const aux = [];
   this.getTasks().subscribe( (taskSnapshots) => {
     (array as any) = taskSnapshots.map(snap => {
       const obj = {
-        ref: snap.payload.doc.id,
+        ...snap.payload.doc.data(),
+        _id: snap.payload.doc.id,
       };
       return obj;
     }
   );
-  array.forEach(element => {
-    aux.push(element.ref);
-  });
-    this.createTaskArray( path , aux );
+    this.createTaskArray( path , array );
   });
 
 }
 
 createTaskArray( path , array ) {
   this.afs.doc(path).set({
-    taskOrder: firestore.FieldValue.arrayUnion(...array)
+    tasks: firestore.FieldValue.arrayUnion(...array)
   }, {merge: true});
 }
 
 updateTaskArray( taskArray ) {
   this.authService.getProfile().then(profile => {
     return  this.afs.doc(profile.ref.path).set({
-      taskOrder: firestore.FieldValue.arrayUnion(...taskArray)
+      tasks: firestore.FieldValue.arrayUnion(...taskArray)
     }, {merge : true});
   });
 }
