@@ -54,6 +54,7 @@ export class AuthService {
 
   async registerByEmail(email: string , password: string, displayName: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
+
       return this.createUserProfile(user.user.uid, user.user.email, displayName || user.user.displayName);
     });
   }
@@ -72,11 +73,14 @@ export class AuthService {
   }
 
   async registerByEmailAdmin(email: string, password: string, displayName?: string, isAdmin?: boolean) {
+    console.log( "0" , email,password,displayName,isAdmin)
     return this.profile$.pipe(
       first()
     ).toPromise().then((profile) => {
+      console.log( "1" , profile)
       if (profile.data.admin) {
         return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
+          console.log( "2" , user)
           return this.createUserProfile(user.user.uid, user.user.email, displayName || user.user.displayName, isAdmin);
         });
       } else {

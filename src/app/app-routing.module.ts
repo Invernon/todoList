@@ -8,6 +8,7 @@ import { PageNavigationComponent } from './navigation/page-navigation/page-navig
 import { LoginNavigationComponent } from './navigation/login-navigation/login-navigation.component';
 import { AdminGuard } from './guard/admin.guard';
 import { UsersComponent } from './views/users/users.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 
 const routes: Routes = [
@@ -44,6 +45,8 @@ const routes: Routes = [
     ], component: LoginNavigationComponent
   },
 
+
+  { path: 'logout' , component: LogoutComponent },
   { path: '**', redirectTo: '/login', },
 ];
 

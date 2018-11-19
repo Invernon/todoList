@@ -27,6 +27,7 @@ import { LoadingScreenComponent } from './components/loading-screen/loading-scre
 import { LoadingComponent } from './components/loading/loading.component';
 import { MultiFilterPipe } from './pipes/multi-filter.pipe';
 import { ProgressBarComponent } from './components/progress/progress-bar/progress-bar.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { ProgressBarComponent } from './components/progress/progress-bar/progres
     LoadingComponent,
     MultiFilterPipe,
     ProgressBarComponent,
+    LogoutComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -30,7 +30,7 @@ export class CustomModalComponent implements OnInit {
    }
 
   ngOnInit() {
-      
+
   }
 
   createUserForm() {
@@ -46,12 +46,12 @@ export class CustomModalComponent implements OnInit {
     this.closeModal.emit();
   }
 
-  submitForm(){
+  submitForm() {
     let user = this.newUserForm.value;
 
-    this.authService.registerByEmailAdmin(user.email, user.password)
+    this.authService.registerByEmailAdmin(user.email, user.password , user.name , user.admin)
     .then( data => {
-      this.userService.createUser( user , data );
+      // this.userService.createUser( user , data );
       this.closeModal.emit();
     })
     .catch( err => {
