@@ -49,6 +49,42 @@
     box-shadow: 0 0 4px 0pt $primary-dark;
 }
 
+// Form Column Style
+
+.custom-input-column{
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-input-column.text-area{
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+}
+
+.custom-input-column label{
+    font-weight: bold;
+}
+
+// Form Inline Style
+
+.custom-input-inline{
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.custom-input-inline label{
+    margin-bottom: 0;
+    font-weight: bold;
+    flex: 0 0 38%;
+}
+
+.custom-input-inline select{
+    flex: 0 0 60%;
+}
+
 @media (max-width:767px){ 
     .form-group textarea{
         height:100px;
