@@ -86,7 +86,7 @@ export class TasksComponent implements OnInit {
 
   async ngOnInit() {
     await this.listService.getTasks().subscribe((taskSnapshots) => {
-      (this.tasks as unknown) = taskSnapshots.map(snap => {
+      (this.tasks as any) = taskSnapshots.map(snap => {
         const obj = {
           _id: snap.payload.doc.id,
           ...snap.payload.doc.data(),
