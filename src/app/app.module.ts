@@ -10,7 +10,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { TaskComponent } from './views/task/task.component';
 import { AppRoutingModule } from './app-routing.module';
 
-//Views
+// Views
 import { TasksComponent } from './components/tasks/tasks.component';
 import { LoginComponent } from './views/login/login.component';
 import { AuthService } from './services/auth/auth.service';
@@ -25,6 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UsersComponent } from './views/users/users.component';
 import { LoadingScreenComponent } from './components/loading-screen/loading-screen.component';
 import { LoadingComponent } from './components/loading/loading.component';
+import { MultiFilterPipe } from './pipes/multi-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { LoadingComponent } from './components/loading/loading.component';
     LoginNavigationComponent,
     UsersComponent,
     LoadingScreenComponent,
-    LoadingComponent
+    LoadingComponent,
+    MultiFilterPipe
   ],
   imports: [
     AppRoutingModule,

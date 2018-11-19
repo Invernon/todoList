@@ -11,39 +11,46 @@
       </button>
     </div>
   </div>
-
   <!-- Formulario para las nuevas tareas -->
   <div class="list-container list-add-new" *ngIf="addForm">
     <form style="width:100%" [formGroup]="taskForm" (ngSubmit)="onSubmit(taskID)">
       <div class="row">
         <div class="col-12 col-md-3">
-          <div class="form-group custom-input">
+          <div class="form-group custom-input-column">
             <label>Name</label>
             <input type="text" formControlName="name">
-            <span class="input-error" [ngClass]="{ 'show' : name.errors?.maxlength }"> Must be lower than 20 characters </span>
+            <span class="input-error" [ngClass]="{ 'show' : name.errors?.maxlength }"> Must be lower than 20 characters
+            </span>
           </div>
         </div>
         <div class="col-12 col-md-3">
-          <div class="form-group custom-input">
+          <div class="form-group custom-input-column">
             <label>Type</label>
-            <input type="text" formControlName="type">
-            <span class="input-error" [ngClass]="{ 'show' : type.errors?.maxlength }"> Must be lower than 10 characters </span>
+            <select formControlName="type" (ngModelChange)="extraType()" *ngIf="!extraTypeInput">
+              <option *ngFor="let option of typeOptions" [ngValue]="option.value"> {{option.name}} </option>
+              <option [ngValue]='" "'> Add new </option>
+            </select>
+            <input *ngIf="extraTypeInput" type="text" formControlName="type">
+            <span class="input-error" [ngClass]="{ 'show' : type.errors?.maxlength }"> Must be lower than 15 characters
+            </span>
           </div>
         </div>
         <div class="col-12 col-md-3">
-          <div class="form-group custom-input">
+          <div class="form-group custom-input-column">
             <label>Priority</label>
             <select formControlName="priority">
               <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
             </select>
-            <span class="input-error" [ngClass]="{ 'show' : priority.errors?.required && priority.touched }"> This field is required </span>
+            <span class="input-error" [ngClass]="{ 'show' : priority.errors?.required && priority.touched }"> This
+              field is required </span>
           </div>
         </div>
         <div class="col-12 col-md-9">
-          <div class="form-group custom-input text-area">
+          <div class="form-group custom-input-column text-area">
             <label>Details</label>
             <textarea formControlName="detail"></textarea>
-            <span class="input-error" [ngClass]="{ 'show' : detail.errors?.maxlength }"> Must be lower than 400 characters </span>
+            <span class="input-error" [ngClass]="{ 'show' : detail.errors?.maxlength }"> Must be lower than 400
+              characters </span>
           </div>
         </div>
         <div class="col-12">
@@ -59,76 +66,116 @@
     </form>
   </div>
 
-<ng-container  *ngIf="!isReady; else taskWrapper">
-  <app-loading-screen message="Loading Tasks" [status]='isReady' > </app-loading-screen>
-</ng-container>
 
-  <ng-template #taskWrapper> 
- 
+
+  <ng-container *ngIf="!isReady; else taskWrapper">
+    <app-loading message="Loading Tasks" [status]='isReady'> </app-loading>
+  </ng-container>
+
+  <ng-template #taskWrapper>
+
+    <div class="list-container table-action">
+
+      <div class="filter-wrapper">
+        <ul class="filter-options">
+          <!-- <li>
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input class="form-check-input" (ngModelChange)="filterChange()" [(ngModel)]="filter.name" type="checkbox">
+                    Name
+                  </label>
+                </div>
+              </li> -->
+          <li>
+            <div class="form-group custom-input-inline">
+              <label>Type</label>
+              <select (ngModelChange)="filterChange()" [(ngModel)]="filter.typeName">
+                <option value=""> All </option>
+                <option *ngFor="let option of typeOptions" [ngValue]="option.value"> {{option.name}} </option>
+              </select>
+            </div>
+          </li>
+          <li>
+            <div class="form-group custom-input-inline">
+              <label>Priority</label>
+              <select (ngModelChange)="filterChange()" [(ngModel)]="filter.priorityName">
+                <option value=""> All </option>
+                <option *ngFor="let option of options" [ngValue]="option.value"> {{option.name}} </option>
+              </select>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="list-top-separator-small">
+      </div>
+    </div>
+
     <div class="list-container list-header">
-    <div class="list-name">
-      <span> Name </span>
-    </div>
-
-    <div class="list-type">
-      <span> Type </span>
-    </div>
-
-    <div class="list-description">
-      <span> Detail </span>
-    </div>
-
-    <div class="list-action">
-      <span> Actions </span>
-    </div>
-  </div>
-  <!-- Iteracion para mostar las tareas guardadas -->
-  <div class="list-item" *ngFor="let task of tasks; trackBy: trackByFn" [ngStyle]="{
-          'border-left-color' : getBorderColor(task?.priority)}"
-    [@marginAnimation]='detailState(task?.showDetail , (isMobile$ | async))'>
-
-    <ng-container *ngIf="!(isMobile$ | async); else responsiveList">
       <div class="list-name">
-        <span> {{task?.name}} </span>
+        <span> Name </span>
       </div>
 
       <div class="list-type">
-        <span> {{task?.type }} </span>
+        <span> Type </span>
       </div>
 
       <div class="list-description">
-        <span> {{task?.detail}} </span>
+        <span> Detail </span>
       </div>
 
       <div class="list-action">
-        <button class="button mx-1" (click)="editTask(task)"> Editar </button>
-        <button class="button mx-1 danger" (click)="deleteTask(task._id)"> Eliminar </button>
+        <span> Actions </span>
       </div>
-    </ng-container>
+    </div>
+    <!-- Iteracion para mostar las tareas guardadas -->
+    <div class="list-item" *ngFor="let task of ( tasks | multiFilter:filterChange():filter.priorityName:filter.typeName ) ; trackBy: trackByFn"
+    (click)="openDetail( task , (isMobile$) )"  
+    [ngStyle]="{
+          'border-left-color' : getBorderColor(task?.priority)}" [@marginAnimation]='detailState(task?.showDetail , (isMobile$ | async))'>
 
-    <ng-template #responsiveList>
-      <div class="list-name">
-        <span (click)="openDetail(task)"> {{task?.name}} </span>
-      </div>
-      <div [ngClass]='detailState(task.showDetail, (isMobile$ | async) )' class="list-detail">
+      <ng-container *ngIf="!(isMobile$ | async); else responsiveList">
+        <div class="list-name">
+          <span> {{task?.name}} </span>
+        </div>
+
         <div class="list-type">
-          <span> <b> Type: </b> {{task?.type }} </span>
+          <span> {{task?.type }} </span>
         </div>
+
         <div class="list-description">
-          <span> <b> Description: </b> {{task?.detail}} </span>
+          <span> {{task?.detail}} </span>
         </div>
+
         <div class="list-action">
-          <a (click)="editTask(task)"> <i class="fas fa-pencil-alt"></i> </a>
-          <a (click)="deleteTask(task._id)"> <i class="fas fa-trash-alt"></i> </a>
+          <button class="button mx-1" (click)="editTask(task)"> Editar </button>
+          <button class="button mx-1 danger" (click)="deleteTask(task._id)"> Eliminar </button>
         </div>
-      </div>
-    </ng-template>
-  </div>
+      </ng-container>
 
-  <div class="list-container flex-center" *ngIf="tasks?.length == 0 ">
-    <h2> Gratz, you are free! for now...</h2>
-  </div>
+      <ng-template #responsiveList>
+        <div class="list-name">
+          <span (click)="openDetail(task)"> {{task?.name}} </span>
+        </div>
+        <div [ngClass]='detailState(task.showDetail, (isMobile$ | async) )' class="list-detail">
+          <div class="list-type">
+            <span> <b> Type: </b> {{task?.type }} </span>
+          </div>
+          <div class="list-description">
+            <span> <b> Description: </b> {{task?.detail}} </span>
+          </div>
+          <div class="list-action">
+            <a (click)="editTask(task)"> <i class="fas fa-pencil-alt"></i> </a>
+            <a (click)="deleteTask(task._id)"> <i class="fas fa-trash-alt"></i> </a>
+          </div>
+        </div>
+      </ng-template>
+    </div>
 
-</ng-template >
+    <div class="list-container flex-center" *ngIf="tasks?.length == 0 ">
+      <h2> Gratz, you are free! for now...</h2>
+    </div>
+
+  </ng-template>
 
 </div>

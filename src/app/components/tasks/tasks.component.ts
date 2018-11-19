@@ -30,14 +30,16 @@ import { debounceTime } from 'rxjs/operators';
 export class TasksComponent implements OnInit {
 
   tasks: Array<Task>;
+  isReady = false;
   options = [];
+  typeOptions = [];
   taskForm = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(20)]],
-    type: ['', [Validators.required, Validators.maxLength(10)]],
+    type: ['', [Validators.required, Validators.maxLength(15)]],
     detail: ['', [Validators.required, Validators.maxLength(400)]],
     priority: ['', Validators.required],
   });
-  isReady: boolean;
+  extraTypeInput = false;
 
   get name() {
     return this.taskForm.get('name');
@@ -51,6 +53,14 @@ export class TasksComponent implements OnInit {
   get priority() {
     return this.taskForm.get('priority');
   }
+
+  filter = {
+    name: false,
+    type: false,
+    priority: false,
+    priorityName: '',
+    typeName: ''
+  };
 
   addForm = false;
   editTaskForm = false;
@@ -69,6 +79,7 @@ export class TasksComponent implements OnInit {
     this.isMobile$ = this.windowSize.isMobileObservable;
   }
 
+
   trackByFn(index, item) {
     return item._id;
   }
@@ -81,10 +92,12 @@ export class TasksComponent implements OnInit {
           ...snap.payload.doc.data(),
           showDetail: false
         };
-        this.isReady = false;
+        this.isReady = true;
         return obj;
       });
+      this.getTypeKeys(this.tasks);
     });
+    console.log(this.taskForm.value.type , this.extraTypeInput);
   }
 
   deleteTask(id) {
@@ -93,6 +106,7 @@ export class TasksComponent implements OnInit {
 
   addNewToggle() {
     this.addForm = !this.addForm;
+    this.extraTypeInput = false;
     this.taskForm.reset();
   }
 
@@ -103,22 +117,51 @@ export class TasksComponent implements OnInit {
     this.editTaskForm = true;
   }
 
-  openDetail(task) {
-    this.tasks.forEach(element => {
-      if (element._id === task._id) {
-        if (this.taskOpen === task._id) {
-          element.showDetail = false;
-          this.taskOpen = '';
-        } else {
-          this.taskOpen = element._id;
-          element.showDetail = true;
-        }
-      } else {
-        element.showDetail = false;
-      }
+  unique(array, propertyName) {
+    return array.filter((e, i) => array.findIndex(a => a[propertyName] === e[propertyName]) === i);
+ }
+
+  getTypeKeys(array) {
+    this.typeOptions = [];
+    this.unique(array, 'type').forEach(element => {
+      const options = {
+        name: element.type,
+        value: element.type,
+      };
+      this.typeOptions.push(options);
     });
+    console.log(this.typeOptions);
   }
 
+  // This with activate the extra input if the user select Add new in the Select
+  extraType() {
+    if ( this.taskForm.value.type === ' ' ) {
+      this.extraTypeInput = true;
+    } else {
+      this.extraTypeInput = false;
+    }
+  }
+
+  // Recive a task to open it details
+  openDetail(task , isMobile) {
+    if (isMobile) {
+      this.tasks.forEach(element => {
+        if (element._id === task._id) {
+          if (this.taskOpen === task._id) {
+            element.showDetail = false;
+            this.taskOpen = '';
+          } else {
+            this.taskOpen = element._id;
+            element.showDetail = true;
+          }
+        } else {
+          element.showDetail = false;
+        }
+      });
+    }
+  }
+
+  // Submit del formulario
   onSubmit(id?) {
     this.addForm = false;
     if (this.editTaskForm) {
@@ -142,12 +185,23 @@ export class TasksComponent implements OnInit {
     return detailState;
   }
 
+  // return the BG color depending the Priority
   getBgColor(value) {
     return this.optionsService.getBgColor(value);
   }
 
+   // return the Border color depending the Priority
   getBorderColor(value) {
     return this.optionsService.getBorderColor(value);
+  }
+
+  filterChange() {
+    if ( this.filter.name ) {
+      return 'name';
+    }
+    if ( !this.filter.name && this.filter.typeName === '' && this.filter.priorityName === '' ) {
+      return 'all';
+    }
   }
 
 }

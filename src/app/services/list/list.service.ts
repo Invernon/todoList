@@ -21,7 +21,6 @@ export class ListService {
   ) { }
 
     private taskPath = '/tasks';
-    private userPath = '/users';
 
   // Crear una tarea
   async createTask(
@@ -55,7 +54,7 @@ export class ListService {
     return this.authService.profile$.pipe(
       switchMap(profile => {
         if (profile) {
-          return this.afs.doc(profile.ref.path).collection(this.taskPath, ref => ref.orderBy('name') ).snapshotChanges();
+          return this.afs.doc(profile.ref.path).collection(this.taskPath).snapshotChanges();
         }
       })
     );

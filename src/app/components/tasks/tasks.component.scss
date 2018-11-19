@@ -44,6 +44,10 @@
     flex: 3.5;
 }
 
+.list-top-separator-small{
+    flex: 2;
+}
+
 .list-button{
     flex: 1 0 0;
     display: flex;
@@ -105,11 +109,15 @@
 
 @media (max-width:767px){
     .list-quantity{
-        flex: .5
+        flex: .5;
     }
 
     .list-top-separator{
-        flex: .5
+        flex: .5;
+    }
+
+    .list-top-separator-small{
+        flex: 0;
     }
 
     .list-header{
@@ -167,17 +175,32 @@
     border-top:2px solid grey;
 }
 
-.custom-input{
+//filter
+
+.filter-wrapper{
     display: flex;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.filter-options{
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin: 0;
     flex-direction: column;
 }
 
-.custom-input.text-area{
+.filter-options li{
     display: flex;
-    flex-direction: column;
-    max-width: 100%;
+    flex: 1;
 }
 
-.custom-input label{
-    font-weight: bold;
+.table-action{
+    border-bottom: 2px solid $primary;
 }
