@@ -50,4 +50,13 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  loginGoogle() {
+    this.authService.loginByGoogle()
+    .then( res => {
+      console.log(res);
+    })
+    .catch( err => { console.log(err);
+    });
+  }
+
 }

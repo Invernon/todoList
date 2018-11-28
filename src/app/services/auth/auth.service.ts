@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { switchMap, first } from 'rxjs/operators';
 import { map } from 'rxjs/operators';
 import { User } from 'src/app/models/user';
+import * as firebase from 'firebase/app';
 
 
 @Injectable({
@@ -54,7 +55,6 @@ export class AuthService {
 
   async registerByEmail(email: string , password: string, displayName: string) {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((user) => {
-
       return this.createUserProfile(user.user.uid, user.user.email, displayName || user.user.displayName);
     });
   }
@@ -63,8 +63,8 @@ export class AuthService {
     return this.afs.collection(AuthService.usersPath).doc(uid).set(
       {
         email: email,
-        name: displayName || displayName || 'Sin Nombre',
-        admin: isAdmin,
+        name: displayName || 'Sin Nombre',
+        admin: isAdmin || false,
       },
       {
         merge: true
@@ -83,6 +83,15 @@ export class AuthService {
       } else {
         throw new Error('You Shouldn`t be here');
       }
+    });
+  }
+
+  // Login with Google Button
+  async loginByGoogle() {
+    const googleProvider = new firebase.auth.GoogleAuthProvider;
+    return this.afAuth.auth.signInWithPopup(googleProvider).then( (user: any) => {
+      console.log(user);
+      return this.createUserProfile( user.user.uid , user.user.email, user.user.displayName );
     });
   }
 

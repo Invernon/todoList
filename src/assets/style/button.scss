@@ -97,3 +97,26 @@ $btn-secondary-dark: $secondary-dark;
     background-color: $danger-dark;
     color:white;
 }
+
+.btn-google{
+    background-color: #dd4b39;
+    border-color: #c23321;
+    color: white;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-google i{
+    position: absolute;
+    left: 1pc;
+    border-right: 1px solid  rgba(0,0,0,0.2);
+    padding-right: 1pc;
+    height: 38px;
+    line-height: 38px;
+}
+
+.btn-google:hover{
+    background-color: #c23321
+}

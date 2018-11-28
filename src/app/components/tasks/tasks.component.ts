@@ -86,18 +86,22 @@ export class TasksComponent implements OnInit {
 
   async ngOnInit() {
     await this.listService.getTasks().subscribe((taskSnapshots) => {
-      (this.tasks as any) = taskSnapshots.map(snap => {
-        const obj = {
-          _id: snap.payload.doc.id,
-          ...snap.payload.doc.data(),
-          showDetail: false
-        };
+      if (taskSnapshots.length > 0 ) {
+        (this.tasks as any) = taskSnapshots.map(snap => {
+          const obj = {
+            _id: snap.payload.doc.id,
+            ...snap.payload.doc.data(),
+            showDetail: false
+          };
+          this.isReady = true;
+          return obj;
+        });
+        this.getTypeKeys(this.tasks);
+      } else {
+        this.tasks = [];
         this.isReady = true;
-        return obj;
-      });
-      this.getTypeKeys(this.tasks);
+      }
     });
-    console.log(this.taskForm.value.type , this.extraTypeInput);
   }
 
   deleteTask(id) {

@@ -11,6 +11,10 @@
       </div>
       <button type="submit" [disabled]="loginForm.invalid" class="button btn-block">Submit</button>
     </form>
+    <hr>
+    <div class="">
+      <button class="button btn-block btn-google" (click)="loginGoogle()"> <i class="fab fa-google"></i> Sign in Google </button>
+    </div>
   </div>
 </div>
 <app-loading-screen [status]='isLoading'> </app-loading-screen>
