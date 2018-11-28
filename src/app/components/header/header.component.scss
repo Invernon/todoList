@@ -65,10 +65,11 @@
 .header-right .justify-right{
     cursor: pointer;
     transition: 450ms ease;
+    text-transform: capitalize;
 }
 
 .header-right .justify-right:hover{
-    transform: scale(1.5)
+    // transform: scale(1.5)
 }
 
 .admin-menu{
