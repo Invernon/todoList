@@ -90,8 +90,11 @@ export class AuthService {
   async loginByGoogle() {
     const googleProvider = new firebase.auth.GoogleAuthProvider;
     return this.afAuth.auth.signInWithPopup(googleProvider).then( (user: any) => {
-      console.log(user);
-      return this.createUserProfile( user.user.uid , user.user.email, user.user.displayName );
+      if ( this.afs.collection(AuthService.usersPath).doc(user.user.uid) ) {
+        console.log( 'Welcome ' , user.user.displayName );
+      } else {
+        return this.createUserProfile( user.user.uid , user.user.email, user.user.displayName );
+      }
     });
   }
 
